@@ -1,0 +1,55 @@
+digraph CSPM {
+  graph [
+    rankdir=LR,
+    bgcolor="white",
+    fontname="Arial",
+    label="CSPM logical architecture and trust boundaries",
+    labelloc=t,
+    fontsize=20,
+    pad=0.3,
+    nodesep=0.45,
+    ranksep=0.75
+  ];
+  node [shape=box, style="rounded,filled", fillcolor="#eef4ff", color="#315b9a", fontname="Arial"];
+  edge [color="#46566d", fontname="Arial", fontsize=10];
+
+  subgraph cluster_browser {
+    label="Trust zone: User device";
+    color="#7b8798";
+    style="rounded,dashed";
+    browser [label="React frontend\nBrowser"];
+    upload [label="Uploaded JSON/YAML\nUNTRUSTED INPUT", fillcolor="#fff0e5", color="#b54f0b"];
+    upload -> browser [label="select file"];
+  }
+
+  subgraph cluster_api {
+    label="Trust zone: Application";
+    color="#7b8798";
+    style="rounded,dashed";
+    api [label="FastAPI backend", fillcolor="#e5f6ed", color="#24734b"];
+    rules [label="Rule engine"];
+    ml [label="ML risk scorer"];
+    graph_engine [label="NetworkX graph"];
+    api -> rules;
+    api -> ml;
+    api -> graph_engine;
+  }
+
+  subgraph cluster_data {
+    label="Trust zone: Data store";
+    color="#7b8798";
+    style="rounded,dashed";
+    postgres [label="PostgreSQL", fillcolor="#f0eaff", color="#6147a6"];
+  }
+
+  subgraph cluster_cloud {
+    label="Trust zone: Cloud target";
+    color="#7b8798";
+    style="rounded,dashed";
+    localstack [label="LocalStack\nS3 / EC2 / IAM", fillcolor="#fff8dc", color="#987a16"];
+  }
+
+  browser -> api [label="BOUNDARY 1\nHTTPS + JWT"];
+  api -> postgres [dir=both, label="BOUNDARY 2\nTLS + least privilege"];
+  api -> localstack [dir=both, label="BOUNDARY 3\nboto3 read-only"];
+}
