@@ -5,6 +5,8 @@ export type ScanStatus =
   | "COMPLETED"
   | "FAILED";
 
+export type ScanType = "STATIC" | "LIVE";
+
 export interface Finding {
   resource_id: string;
   resource_type: string;
@@ -18,7 +20,7 @@ export interface Finding {
 export interface ScanSummary {
   scan_id: string;
   filename: string;
-  scan_type: string;
+  scan_type: ScanType;
   status: ScanStatus;
   timestamp: string;
 }

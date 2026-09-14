@@ -20,6 +20,11 @@ export const uploadScan = async (
   return data;
 };
 
+export const scanCloudAccount = async (): Promise<UploadResponse> => {
+  const { data } = await client.post("/scans/cloud");
+  return data;
+};
+
 export const listScans = async (): Promise<ScanSummary[]> => {
   const { data } = await client.get("/scans");
   return data;

@@ -41,6 +41,7 @@ from schemas import (
     ScanSummary,
     UploadResponse,
 )
+from cloud.collector import collect_cloud_resources
 
 # Rules live at the repository root (../../rules from this file). Allow an env
 # override so the API can be run/packaged from a different layout.
@@ -205,6 +206,57 @@ async def upload_scan(
         findings_count=len(findings_data),
     )
 
+@router.post(
+    "/scans/cloud",
+    response_model=UploadResponse,
+    responses={502: {"description": "Cloud collection failed"}},
+)
+def scan_cloud_account(
+    session: Session = Depends(get_session),
+    user: User = Depends(get_current_user),
+) -> UploadResponse:
+    """Collect live cloud resources, evaluate them, and store the scan."""
+
+    try:
+        resources = collect_cloud_resources()
+    except Exception:
+        # Do not expose internal cloud/SDK details to the client.
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail="Cloud resource collection failed.",
+        )
+
+    findings_data = _engine.evaluate(resources)
+
+    scan = Scan(
+        user_id=user.user_id,
+        filename="Live Cloud Account",
+        scan_type=ScanType.LIVE,
+        status=ScanStatus.COMPLETED,
+    )
+    session.add(scan)
+    session.commit()
+    session.refresh(scan)
+
+    for item in findings_data:
+        session.add(
+            Finding(
+                scan_id=scan.scan_id,
+                resource_id=item["resource_id"],
+                resource_type=item["resource_type"],
+                severity=Severity(item["severity"]),
+                rule_id=item["rule_id"],
+                message=item["message"],
+            )
+        )
+
+    session.commit()
+
+    return UploadResponse(
+        scan_id=scan.scan_id,
+        status=scan.status,
+        findings_count=len(findings_data),
+    )
 
 @router.get("/scans", response_model=list[ScanSummary])
 def list_scans(

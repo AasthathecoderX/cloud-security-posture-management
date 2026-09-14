@@ -46,4 +46,11 @@ export const handlers = [
       findings_count: scanDetailsById["1"].findings.length,
     });
   }),
+  http.post("*/scans/cloud", () => {
+    return HttpResponse.json({
+     scan_id: "3",
+     status: "COMPLETED",
+     findings_count: scanDetailsById["3"].findings.length,
+    });
+  }),
 ];

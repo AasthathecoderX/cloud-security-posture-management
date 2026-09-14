@@ -18,6 +18,13 @@ export const scans: ScanSummary[] = [
     status: "COMPLETED",
     timestamp: "2026-07-09T09:15:00Z",
   },
+  {
+    scan_id: "3",
+    filename: "Live Cloud Account",
+    scan_type: "LIVE",
+    status: "COMPLETED",
+    timestamp: "2026-07-11T10:00:00Z",
+  },
 ];
 
 export const scanDetailsById: Record<string, ScanDetail> = {
@@ -67,4 +74,27 @@ export const scanDetailsById: Record<string, ScanDetail> = {
       },
     ],
   },
+  "3": {
+    ...scans[2],
+    findings: [
+      {
+       resource_id: "example-bucket",
+       resource_type: "s3_bucket",
+       severity: "High",
+       rule_id: "S3-001",
+       message: "Disable public read access on the S3 bucket.",
+       risk_score: null,
+       is_anomaly: false,
+     },
+     {
+       resource_id: "sg-example",
+       resource_type: "security_group",
+       severity: "Medium",
+       rule_id: "SG-014",
+       message: "Restrict inbound access from 0.0.0.0/0.",
+       risk_score: null,
+       is_anomaly: false,
+     },
+   ],
+ },
 };

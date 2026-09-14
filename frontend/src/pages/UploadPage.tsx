@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import Spinner from "../components/ui/Spinner";
-import { uploadScan } from "../api/scans";
+import { uploadScan, scanCloudAccount } from "../api/scans";
 import type { UploadResponse } from "../api/types";
 
 const ALLOWED_EXTENSIONS = [".json", ".yaml", ".yml"];
@@ -37,6 +37,13 @@ export default function UploadPage() {
       // Refresh the scans list so the new scan shows up immediately.
       queryClient.invalidateQueries({ queryKey: ["scans"] });
     },
+  });
+
+  const cloudMutation = useMutation<UploadResponse, string, void>({
+     mutationFn: scanCloudAccount,
+     onSuccess: () => {
+       queryClient.invalidateQueries({ queryKey: ["scans"] });
+     },
   });
 
   function selectFile(selected: File | undefined) {
@@ -137,6 +144,48 @@ export default function UploadPage() {
         <Button onClick={handleUpload} disabled={!file || mutation.isPending}>
           Upload &amp; Scan
         </Button>
+       <div className="mt-6 border-t pt-6">
+  <h2 className="mb-2 text-lg font-semibold">Live Cloud Scan</h2>
+
+  <p className="mb-4 text-sm text-gray-600">
+    Scan your connected cloud account directly for security issues.
+  </p>
+
+  {cloudMutation.isPending && (
+    <div className="mb-4">
+      <Spinner />
+    </div>
+  )}
+
+  {cloudMutation.isError && (
+    <p className="mb-4 text-red-600">
+      {cloudMutation.error || "Cloud scan failed."}
+    </p>
+  )}
+
+  {cloudMutation.isSuccess && (
+    <div className="mb-4 text-green-700">
+      <p>
+        Cloud scan completed! Findings:{" "}
+        {cloudMutation.data.findings_count}
+      </p>
+
+      <Link
+        to={`/scans/${cloudMutation.data.scan_id}`}
+        className="mt-1 inline-block text-blue-600 hover:underline"
+      >
+        View scan details →
+      </Link>
+    </div>
+  )}
+
+       <Button
+         onClick={() => cloudMutation.mutate()}
+         disabled={cloudMutation.isPending}
+       >
+       Scan Cloud Account
+       </Button>
+      </div>
       </Card>
     </div>
   );
