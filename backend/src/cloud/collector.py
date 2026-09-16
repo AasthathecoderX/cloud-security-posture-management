@@ -214,40 +214,59 @@ class CloudCollector:
 
                     )
 
-                    version = self.iam.get_policy(
+                    # One malformed/unreadable policy should not fail the
+                    # whole live scan -- skip it and keep going, matching
+                    # collect_s3_resources's per-resource resilience.
+                    try:
 
-                        PolicyArn=arn
+                        version = self.iam.get_policy(
 
-                    )
+                            PolicyArn=arn
 
-                    default_version = version[
-                        "Policy"
-                    ][
-                        "DefaultVersionId"
-                    ]
+                        )
 
-                    document = self.iam.get_policy_version(
+                        default_version = version[
+                            "Policy"
+                        ][
+                            "DefaultVersionId"
+                        ]
 
-                        PolicyArn=arn,
+                        document = self.iam.get_policy_version(
 
-                        VersionId=default_version,
+                            PolicyArn=arn,
 
-                    )
-                    policy_document = document[
-                        "PolicyVersion"
-                    ][
-                        "Document"
-                    ]
+                            VersionId=default_version,
 
-                    resource = normalize_resource(
+                        )
+                        policy_document = document[
+                            "PolicyVersion"
+                        ][
+                            "Document"
+                        ]
 
-                        "iam_policy",
+                        resource = normalize_resource(
 
-                        policy_name,
+                            "iam_policy",
 
-                        policy_document,
+                            policy_name,
 
-                    )
+                            policy_document,
+
+                        )
+
+                    except (ClientError, ValueError, KeyError) as exc:
+
+                        logger.warning(
+
+                            "Skipping IAM policy %s: %s",
+
+                            policy_name,
+
+                            exc,
+
+                        )
+
+                        continue
 
                     resources.append(resource)
 

@@ -13,6 +13,7 @@ Phase 8). A scan that does not belong to the caller returns 404, not 403, so the
 existence of other users' scans is not leaked (IDOR defence).
 """
 
+import logging
 import os
 import re
 import tempfile
@@ -42,6 +43,9 @@ from schemas import (
     UploadResponse,
 )
 from cloud.collector import collect_cloud_resources
+from ml.scorer import score_findings
+
+logger = logging.getLogger(__name__)
 
 # Rules live at the repository root (../../rules from this file). Allow an env
 # override so the API can be run/packaged from a different layout.
@@ -176,6 +180,7 @@ async def upload_scan(
             os.unlink(tmp_path)
 
     findings_data = _engine.evaluate(data)
+    scores = score_findings(findings_data)
 
     scan = Scan(
         user_id=user.user_id,
@@ -187,7 +192,7 @@ async def upload_scan(
     session.commit()
     session.refresh(scan)
 
-    for item in findings_data:
+    for item, score in zip(findings_data, scores):
         session.add(
             Finding(
                 scan_id=scan.scan_id,
@@ -196,6 +201,8 @@ async def upload_scan(
                 severity=Severity(item["severity"]),
                 rule_id=item["rule_id"],
                 message=item["message"],
+                risk_score=score["risk_score"],
+                is_anomaly=score["is_anomaly"],
             )
         )
     session.commit()
@@ -220,13 +227,16 @@ def scan_cloud_account(
     try:
         resources = collect_cloud_resources()
     except Exception:
-        # Do not expose internal cloud/SDK details to the client.
+        # Log the real cause server-side; the client only gets a generic
+        # message (do not expose internal cloud/SDK details to the client).
+        logger.exception("Live cloud scan failed during resource collection.")
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
             detail="Cloud resource collection failed.",
         )
 
     findings_data = _engine.evaluate(resources)
+    scores = score_findings(findings_data)
 
     scan = Scan(
         user_id=user.user_id,
@@ -238,7 +248,7 @@ def scan_cloud_account(
     session.commit()
     session.refresh(scan)
 
-    for item in findings_data:
+    for item, score in zip(findings_data, scores):
         session.add(
             Finding(
                 scan_id=scan.scan_id,
@@ -247,6 +257,8 @@ def scan_cloud_account(
                 severity=Severity(item["severity"]),
                 rule_id=item["rule_id"],
                 message=item["message"],
+                risk_score=score["risk_score"],
+                is_anomaly=score["is_anomaly"],
             )
         )
 

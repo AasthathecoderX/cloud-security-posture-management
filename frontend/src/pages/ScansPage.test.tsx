@@ -13,10 +13,11 @@ describe("ScansPage", () => {
     expect(firstScan).toHaveAttribute("href", "/scans/1");
     expect(screen.getByRole("link", { name: "staging-infra.yaml" })).toBeInTheDocument();
 
-    // Newest-first: 2026-07-10 scan should appear before the 2026-07-09 one.
+    // Newest-first: the 2026-07-11 live scan, then 07-10, then 07-09.
     const rows = screen.getAllByRole("row");
-    expect(rows[1]).toHaveTextContent("prod-aws-config.json");
-    expect(rows[2]).toHaveTextContent("staging-infra.yaml");
+    expect(rows[1]).toHaveTextContent("Live Cloud Account");
+    expect(rows[2]).toHaveTextContent("prod-aws-config.json");
+    expect(rows[3]).toHaveTextContent("staging-infra.yaml");
   });
 
   it("shows an empty state when there are no scans", async () => {

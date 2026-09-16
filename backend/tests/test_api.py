@@ -152,6 +152,9 @@ def test_upload_bad_fixture_stored_and_readback(client):
     assert len(detail["findings"]) == 1
     assert detail["findings"][0]["rule_id"] == "CIS-AWS-001"
     assert detail["findings"][0]["severity"] == "High"
+    # Wave A / Member 4: risk_score and is_anomaly are populated at scan time.
+    assert isinstance(detail["findings"][0]["risk_score"], int)
+    assert isinstance(detail["findings"][0]["is_anomaly"], bool)
 
     # findings endpoint
     r = client.get(f"/scans/{scan_id}/findings")

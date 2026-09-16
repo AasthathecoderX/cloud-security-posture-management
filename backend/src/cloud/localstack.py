@@ -33,6 +33,12 @@ logger = logging.getLogger(__name__)
 _ALLOWED_ENDPOINTS = {
     "http://localhost:4566",
     "http://127.0.0.1:4566",
+    # Docker Compose service hostname (see infra/docker-compose.yml and the
+    # root .env): containers reach LocalStack by service name, not
+    # "localhost" -- that resolves to the backend container itself, not the
+    # localstack one. Not user-controlled, so allowlisting it doesn't weaken
+    # the SSRF defence this set exists for.
+    "http://localstack:4566",
 }
 
 
@@ -45,9 +51,11 @@ LOCALSTACK_ENDPOINT = os.getenv(
     "http://localhost:4566",
 )
 
+# The root .env sets AWS_DEFAULT_REGION (the name boto3/awscli read
+# natively); AWS_REGION is accepted too so an explicit override still wins.
 AWS_REGION = os.getenv(
     "AWS_REGION",
-    "us-east-1",
+    os.getenv("AWS_DEFAULT_REGION", "us-east-1"),
 )
 
 AWS_ACCESS_KEY_ID = os.getenv(

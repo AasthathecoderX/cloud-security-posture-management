@@ -1,14 +1,16 @@
 import { useMemo, useState } from "react";
 import type { Finding, Severity } from "../api/types";
 import SeverityBadge from "./SeverityBadge";
+import AnomalyBadge from "../components/ui/AnomalyBadge";
 
 /**
- * Member 3 — FindingsTable
+ * Member 3 — FindingsTable (risk-score sorting and the anomaly badge added
+ * by Member 4 once the ML scoring layer started populating those fields).
  *
  * Renders a scan's findings with columns for resource, type, severity, rule,
- * and message. Supports sorting by severity and filtering by severity.
- * risk_score renders as "—" until Phase 5 populates it (it's nullable in the
- * shared types). is_anomaly is a plain boolean per Member 1's types.
+ * message, risk score, and anomaly status. Supports filtering by severity
+ * and sorting by either severity or risk score. risk_score renders as "—"
+ * when unscored (nullable in the shared types).
  */
 
 const SEVERITY_ORDER: Record<Severity, number> = {
@@ -20,10 +22,20 @@ const SEVERITY_ORDER: Record<Severity, number> = {
 
 const ALL_SEVERITIES: Severity[] = ["Critical", "High", "Medium", "Low"];
 
+type SortKey = "severity" | "risk";
 type SortDirection = "asc" | "desc";
+
+// Severity defaults to ascending (Critical first, matches SEVERITY_ORDER);
+// risk defaults to descending (highest risk first) since that's what "sort
+// by risk" is for — surfacing the most dangerous findings.
+const DEFAULT_DIRECTION: Record<SortKey, SortDirection> = {
+  severity: "asc",
+  risk: "desc",
+};
 
 export default function FindingsTable({ findings }: { findings: Finding[] }) {
   const [severityFilter, setSeverityFilter] = useState<Severity | "All">("All");
+  const [sortKey, setSortKey] = useState<SortKey>("severity");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 
   const visibleFindings = useMemo(() => {
@@ -33,13 +45,21 @@ export default function FindingsTable({ findings }: { findings: Finding[] }) {
         : findings.filter((f) => f.severity === severityFilter);
 
     return [...filtered].sort((a, b) => {
-      const diff = SEVERITY_ORDER[a.severity] - SEVERITY_ORDER[b.severity];
+      const diff =
+        sortKey === "severity"
+          ? SEVERITY_ORDER[a.severity] - SEVERITY_ORDER[b.severity]
+          : (a.risk_score ?? -1) - (b.risk_score ?? -1);
       return sortDirection === "asc" ? diff : -diff;
     });
-  }, [findings, severityFilter, sortDirection]);
+  }, [findings, severityFilter, sortKey, sortDirection]);
 
-  function toggleSort() {
-    setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+  function handleSort(key: SortKey) {
+    if (key === sortKey) {
+      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortKey(key);
+      setSortDirection(DEFAULT_DIRECTION[key]);
+    }
   }
 
   if (findings.length === 0) {
@@ -79,15 +99,23 @@ export default function FindingsTable({ findings }: { findings: Finding[] }) {
             <th className="py-2 pr-4">
               <button
                 type="button"
-                onClick={toggleSort}
+                onClick={() => handleSort("severity")}
                 className="flex items-center gap-1 font-medium hover:text-gray-900"
               >
-                Severity {sortDirection === "asc" ? "↑" : "↓"}
+                Severity {sortKey === "severity" && (sortDirection === "asc" ? "↑" : "↓")}
               </button>
             </th>
             <th className="py-2 pr-4">Rule</th>
             <th className="py-2 pr-4">Message</th>
-            <th className="py-2 pr-4">Risk score</th>
+            <th className="py-2 pr-4">
+              <button
+                type="button"
+                onClick={() => handleSort("risk")}
+                className="flex items-center gap-1 font-medium hover:text-gray-900"
+              >
+                Risk score {sortKey === "risk" && (sortDirection === "asc" ? "↑" : "↓")}
+              </button>
+            </th>
             <th className="py-2 pr-4">Anomaly</th>
           </tr>
         </thead>
@@ -102,7 +130,9 @@ export default function FindingsTable({ findings }: { findings: Finding[] }) {
               <td className="py-2 pr-4">{finding.rule_id}</td>
               <td className="py-2 pr-4">{finding.message}</td>
               <td className="py-2 pr-4">{finding.risk_score ?? "—"}</td>
-              <td className="py-2 pr-4">{finding.is_anomaly ? "Yes" : "No"}</td>
+              <td className="py-2 pr-4">
+                <AnomalyBadge isAnomaly={finding.is_anomaly} />
+              </td>
             </tr>
           ))}
         </tbody>

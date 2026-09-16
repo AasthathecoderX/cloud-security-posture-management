@@ -34,7 +34,9 @@ IAM Policy
 
 from __future__ import annotations
 
+import json
 from typing import Any, Dict, List
+from urllib.parse import unquote
 
 
 # ==========================================================
@@ -91,7 +93,7 @@ def map_s3_bucket(
 
 def map_iam_policy(
     policy_name: str,
-    document: Dict[str, Any],
+    document: Dict[str, Any] | str,
 ) -> Dict[str, Any]:
     """
     Extract first IAM Action.
@@ -105,7 +107,17 @@ def map_iam_policy(
     or
 
         ec2:DescribeInstances
+
+    ``document`` is normally the raw ``PolicyVersion.Document`` from
+    boto3's ``get_policy_version`` -- which IAM returns as a **URL-encoded
+    JSON string**, not a parsed dict (this is documented AWS/boto3 IAM API
+    behavior, mirrored by LocalStack). Decode it before treating it as a
+    dict; a caller that already has a parsed dict (e.g. a hand-built test
+    fixture) still works unchanged.
     """
+
+    if isinstance(document, str):
+        document = json.loads(unquote(document))
 
     action = ""
 

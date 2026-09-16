@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
 import {
   Bar,
   BarChart,
@@ -17,6 +18,10 @@ import { getScan, listScans } from "../../api/scans";
 import type { Finding, Severity } from "../../api/types";
 import Card from "../../components/ui/Card";
 import Spinner from "../../components/ui/Spinner";
+import AnomalyBadge from "../../components/ui/AnomalyBadge";
+import SeverityBadge from "../../pages/SeverityBadge";
+
+const TOP_RISKS_LIMIT = 5;
 
 // Hex values mirror Member 1's `Badge` Tailwind classes (bg-gray-500 /
 // yellow-500 / orange-500 / red-600) so charts and severity badges share one
@@ -33,7 +38,7 @@ const SEVERITY_ORDER: Severity[] = ["Critical", "High", "Medium", "Low"];
 export default function DashboardPage() {
   // Charts are derived from the existing endpoints — no new backend call.
   const scansQuery = useQuery({ queryKey: ["scans"], queryFn: listScans });
-  const scans = scansQuery.data ?? [];
+  const scans = useMemo(() => scansQuery.data ?? [], [scansQuery.data]);
 
   // One detail query per scan; keys match ScanDetailPage so the cache is shared.
   const detailQueries = useQueries({
@@ -44,6 +49,28 @@ export default function DashboardPage() {
   });
 
   const findings: Finding[] = detailQueries.flatMap((q) => q.data?.findings ?? []);
+
+  // Same order as `scans`/`detailQueries`, so each finding can be traced back
+  // to the scan it came from (needed for the Top Risks panel's "View scan" link).
+  const findingsWithScan = useMemo(
+    () =>
+      detailQueries.flatMap((q, i) =>
+        (q.data?.findings ?? []).map((finding) => ({
+          finding,
+          scanId: scans[i]?.scan_id,
+        })),
+      ),
+    [detailQueries, scans],
+  );
+
+  const topRisks = useMemo(
+    () =>
+      findingsWithScan
+        .filter((f) => f.finding.risk_score != null)
+        .sort((a, b) => (b.finding.risk_score ?? 0) - (a.finding.risk_score ?? 0))
+        .slice(0, TOP_RISKS_LIMIT),
+    [findingsWithScan],
+  );
 
   const severityData = useMemo(() => {
     const counts: Record<Severity, number> = {
@@ -119,6 +146,39 @@ export default function DashboardPage() {
           {totalFindings} finding{totalFindings === 1 ? "" : "s"} across {scans.length} scan
           {scans.length === 1 ? "" : "s"}.
         </p>
+      </Card>
+
+      <Card>
+        <h2 className="mb-3 font-medium">Top risks</h2>
+        {topRisks.length === 0 ? (
+          <p className="text-sm text-gray-500">
+            No scored findings yet — risk scoring populates once a scan runs.
+          </p>
+        ) : (
+          <ul className="divide-y">
+            {topRisks.map(({ finding, scanId }) => (
+              <li
+                key={`${scanId}-${finding.resource_id}-${finding.rule_id}`}
+                className="flex flex-wrap items-center justify-between gap-3 py-2 text-sm"
+              >
+                <div className="min-w-0">
+                  <p className="truncate font-mono text-xs">{finding.resource_id}</p>
+                  <p className="text-gray-500">{finding.resource_type}</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <SeverityBadge severity={finding.severity} />
+                  <AnomalyBadge isAnomaly={finding.is_anomaly} />
+                  <span className="font-semibold">{finding.risk_score}</span>
+                  {scanId && (
+                    <Link to={`/scans/${scanId}`} className="text-blue-600 hover:underline">
+                      View scan
+                    </Link>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </Card>
 
       <Card>

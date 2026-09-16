@@ -11,12 +11,18 @@ Tests
 4. Contract A
 """
 
+import json
+import urllib.parse
 from unittest.mock import MagicMock, patch
+
+from botocore.exceptions import ClientError
 
 from src.cloud.collector import (
     CloudCollector,
     collect_cloud_resources,
 )
+
+from src.cloud.localstack import validate_endpoint
 
 from src.cloud.normalizer import (
     normalize_resource,
@@ -363,3 +369,80 @@ def test_multiple_resources(
     assert resources[1]["resource_type"] == "iam_policy"
 
     assert resources[2]["resource_type"] == "security_group"
+
+
+# ==========================================================
+# IAM policy document decoding (real boto3/LocalStack shape)
+# ==========================================================
+
+def test_normalize_iam_policy_decodes_url_encoded_document():
+    # get_policy_version's PolicyVersion.Document comes back URL-encoded JSON,
+    # not a parsed dict -- this is the shape normalize_resource must handle.
+    raw = {"Statement": [{"Action": "s3:*"}]}
+    document = urllib.parse.quote(json.dumps(raw))
+
+    resource = normalize_resource("iam_policy", "AdminPolicy", document)
+
+    assert resource["resource_type"] == "iam_policy"
+    assert resource["action"] == "s3:*"
+
+
+# ==========================================================
+# IAM collection resilience (one bad policy shouldn't kill the scan)
+# ==========================================================
+
+def test_collect_iam_resources_skips_unreadable_policy_and_continues():
+    collector = CloudCollector.__new__(CloudCollector)  # skip boto3 client setup
+    collector.iam = MagicMock()
+
+    paginator = MagicMock()
+    paginator.paginate.return_value = [
+        {
+            "Policies": [
+                {"Arn": "arn:aws:iam::000000000000:policy/Bad", "PolicyName": "Bad"},
+                {"Arn": "arn:aws:iam::000000000000:policy/Good", "PolicyName": "Good"},
+            ]
+        }
+    ]
+    collector.iam.get_paginator.return_value = paginator
+
+    good_document = urllib.parse.quote(json.dumps({"Statement": [{"Action": "s3:*"}]}))
+
+    def get_policy(PolicyArn):
+        if PolicyArn.endswith("Bad"):
+            raise ClientError(
+                {"Error": {"Code": "NoSuchEntity", "Message": "gone"}}, "GetPolicy"
+            )
+        return {"Policy": {"DefaultVersionId": "v1"}}
+
+    collector.iam.get_policy.side_effect = get_policy
+    collector.iam.get_policy_version.return_value = {
+        "PolicyVersion": {"Document": good_document}
+    }
+
+    resources = collector.collect_iam_resources()
+
+    assert len(resources) == 1
+    assert resources[0]["resource_id"] == "Good"
+
+
+# ==========================================================
+# Endpoint allowlist (SSRF defence)
+# ==========================================================
+
+def test_validate_endpoint_accepts_known_localstack_hosts():
+    validate_endpoint("http://localhost:4566")
+    validate_endpoint("http://127.0.0.1:4566")
+    # Docker Compose service hostname -- what the backend container actually
+    # uses per the root .env; regression test for the endpoint that was
+    # previously blocked and crashed the app at import time.
+    validate_endpoint("http://localstack:4566")
+
+
+def test_validate_endpoint_rejects_arbitrary_urls():
+    try:
+        validate_endpoint("http://evil.example.com:4566")
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("expected ValueError for an unapproved endpoint")

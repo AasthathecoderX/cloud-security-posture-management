@@ -25,6 +25,27 @@ const findings: Finding[] = [
   },
 ];
 
+const scoredFindings: Finding[] = [
+  {
+    resource_id: "aws_s3_bucket.low-risk",
+    resource_type: "s3_bucket",
+    severity: "Low",
+    rule_id: "S3-009",
+    message: "Enable access logging",
+    risk_score: 22,
+    is_anomaly: false,
+  },
+  {
+    resource_id: "aws_s3_bucket.high-risk",
+    resource_type: "s3_bucket",
+    severity: "Critical",
+    rule_id: "S3-001",
+    message: "Bucket is public",
+    risk_score: 92,
+    is_anomaly: true,
+  },
+];
+
 describe("FindingsTable", () => {
   it("filters findings by severity", async () => {
     render(<FindingsTable findings={findings} />);
@@ -42,5 +63,22 @@ describe("FindingsTable", () => {
   it("renders null risk_score as an em dash", () => {
     render(<FindingsTable findings={findings} />);
     expect(screen.getAllByText("—").length).toBeGreaterThan(0);
+  });
+
+  it("sorts by risk score, highest first by default", async () => {
+    render(<FindingsTable findings={scoredFindings} />);
+
+    await userEvent.click(screen.getByRole("button", { name: /risk score/i }));
+
+    const rows = screen.getAllByRole("row");
+    expect(rows[1]).toHaveTextContent("aws_s3_bucket.high-risk");
+    expect(rows[2]).toHaveTextContent("aws_s3_bucket.low-risk");
+  });
+
+  it("shows the Anomaly badge only for anomalous findings", () => {
+    render(<FindingsTable findings={scoredFindings} />);
+
+    expect(screen.getByText("Anomaly", { selector: "span" })).toBeInTheDocument();
+    expect(screen.getAllByText("No").length).toBe(1);
   });
 });
