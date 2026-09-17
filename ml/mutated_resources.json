@@ -1,0 +1,4370 @@
+[
+  {
+    "resource_id": "bucket-001",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-001",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-001",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-002",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": false,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-002",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-002",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-003",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-003",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-003",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-004",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-004",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-004",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-005",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": true,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-005",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "*",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-005",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-006",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": true,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-006",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-006",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-007",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": false,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-007",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-007",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-008",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-008",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-008",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-009",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-009",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "*",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-009",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-010",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-010",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-010",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-011",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-011",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-011",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-012",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-012",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-012",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-013",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-013",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-013",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-014",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-014",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "*",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-014",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-015",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-015",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-015",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-016",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-016",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-016",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-017",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-017",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "*",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-017",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-018",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-018",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-018",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-019",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-019",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-019",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-020",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": false,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-020",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-020",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-021",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-021",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-021",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-022",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": true,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-022",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-022",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-023",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-023",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-023",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-024",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": false,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-024",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-024",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-025",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-025",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-025",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-026",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-026",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-026",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-027",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-027",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "*",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-027",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-028",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": true,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-028",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-028",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-029",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-029",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-029",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-030",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-030",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-030",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-031",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": false
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-031",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-031",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-032",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": false
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-032",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-032",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-033",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-033",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-033",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-034",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-034",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-034",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-035",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-035",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-035",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-036",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-036",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-036",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-037",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-037",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-037",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-038",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": false
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-038",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-038",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-039",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": false,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-039",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-039",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-040",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-040",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "*",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-040",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-041",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-041",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-041",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-042",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-042",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-042",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-043",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-043",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-043",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-044",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-044",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-044",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-045",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-045",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-045",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-046",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": true,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-046",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-046",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-047",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-047",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-047",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-048",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-048",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "*",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-048",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-049",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-049",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-049",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-050",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": true,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-050",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-050",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-051",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": true,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-051",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-051",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-052",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-052",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-052",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-053",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-053",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-053",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-054",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-054",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-054",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-055",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": true,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-055",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "*",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-055",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-056",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": false
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-056",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-056",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-057",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-057",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-057",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-058",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": false
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-058",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "*",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-058",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-059",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": false,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-059",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-059",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-060",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-060",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-060",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-061",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": false
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-061",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-061",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-062",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": false,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-062",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-062",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-063",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": false
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-063",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-063",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-064",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-064",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-064",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-065",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-065",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-065",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-066",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-066",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-066",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-067",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-067",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-067",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-068",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-068",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-068",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-069",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-069",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-069",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-070",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-070",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-070",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-071",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-071",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-071",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-072",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": false
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-072",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "*",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-072",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-073",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": false
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-073",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-073",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-074",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-074",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-074",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-075",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-075",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-075",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-076",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-076",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-076",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-077",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-077",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "*",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-077",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-078",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-078",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-078",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-079",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": false
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-079",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-079",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-080",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": false
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-080",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-080",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-081",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": false,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-081",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-081",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-082",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-082",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-082",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-083",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-083",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-083",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-084",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-084",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-084",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-085",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-085",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-085",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-086",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-086",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-086",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-087",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": true,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-2"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-087",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-087",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-088",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-088",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-088",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-089",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-089",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "*",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-089",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-090",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-090",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-090",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-091",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-091",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-091",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-092",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": false,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-092",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-092",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-093",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-093",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "*",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-093",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-094",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": false,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-094",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-094",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-095",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-095",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-095",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-096",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-096",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-2"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-096",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-097",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-097",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-097",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-098",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-5"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-098",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "*",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-5"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "sg-098",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "0.0.0.0/0"
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "production",
+      "owner": "team-4"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "bucket-099",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": false
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-3"
+    },
+    "label": 1
+  },
+  {
+    "resource_id": "policy-099",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "staging",
+      "owner": "team-3"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-099",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "bucket-100",
+    "resource_type": "s3_bucket",
+    "configuration": {
+      "public_read": false,
+      "encryption": true,
+      "versioning": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-4"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "policy-100",
+    "resource_type": "iam_policy",
+    "configuration": {
+      "action": "s3:GetObject",
+      "principal": "specific-user",
+      "resource": "arn:aws:s3:::example-bucket/*"
+    },
+    "metadata": {
+      "environment": "testing",
+      "owner": "team-1"
+    },
+    "label": 0
+  },
+  {
+    "resource_id": "sg-100",
+    "resource_type": "security_group",
+    "configuration": {
+      "ingress": {
+        "cidr": "10.0.0.0/24",
+        "port": 443
+      },
+      "egress_allowed": true
+    },
+    "metadata": {
+      "environment": "development",
+      "owner": "team-5"
+    },
+    "label": 0
+  }
+]
