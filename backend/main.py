@@ -1,9 +1,9 @@
 """API entry point.
 
-Exposes the Phase 0 ``/health`` probe plus the Phase 2 scan endpoints. The
-``backend/src`` directory is placed on ``sys.path`` (mirroring the test harness)
-so the modules there can be imported as top-level modules whether the app is run
-from ``backend/`` (``uvicorn main:app``) or elsewhere.
+Exposes the Phase 0 ``/health`` probe plus the Phase 2 scan endpoints and
+Phase 7 compliance endpoints. The ``backend/src`` directory is placed on ``sys.path``
+(mirroring the test harness) so the modules there can be imported as top-level modules
+whether the app is run from ``backend/`` (``uvicorn main:app``) or elsewhere.
 """
 
 import sys
@@ -21,6 +21,7 @@ from starlette.responses import JSONResponse
 
 from parser import MAX_FILE_SIZE
 from routes import router as scans_router
+from compliance.routes import router as compliance_router
 
 app = FastAPI(title="CSPM API")
 
@@ -73,6 +74,7 @@ async def limit_request_body_size(request: Request, call_next):
 
 
 app.include_router(scans_router)
+app.include_router(compliance_router)
 
 
 @app.get("/health", tags=["system"])
