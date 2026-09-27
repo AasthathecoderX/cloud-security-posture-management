@@ -31,19 +31,22 @@ INPUT_FILE = BASE_DIR / "features.json"
 MODEL_FILE = BASE_DIR / "isolation_forest_model.joblib"
 
 
+# Deliberately excludes every rule-correlated field (public_read, encryption,
+# wildcard_action, wildcard_principal, open_ingress, rule_risk) -- those are
+# what train_xgboost.py's supervised model learns from. Isolation Forest gets
+# only behavioral/structural features so it can flag fleet-odd resources
+# *independent* of what the rule engine already checks, instead of just
+# re-learning the same rule boundary XGBoost already separates perfectly on.
+# See Major Project Planning.md §8.2.
 FEATURE_COLUMNS = [
     "is_s3",
     "is_iam",
     "is_security_group",
-    "public_read",
-    "encryption",
     "versioning",
-    "wildcard_action",
-    "wildcard_principal",
-    "open_ingress",
     "is_production",
     "is_testing",
-    "rule_risk",
+    "team_number",
+    "tags_count",
     "configuration_size",
 ]
 

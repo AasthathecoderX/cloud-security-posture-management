@@ -8,8 +8,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -18,12 +19,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "s3:GetObject",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-5"
+      "environment": "staging",
+      "owner": "team-5",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -32,14 +34,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.20.30.0/24",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-1"
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -52,8 +55,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -62,12 +66,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "s3:GetObject",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-3"
+      "environment": "development",
+      "owner": "team-5",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -76,14 +81,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
+        "cidr": "192.168.1.0/24",
         "port": 443
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "development",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -97,7 +103,8 @@
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-1"
+      "owner": "team-5",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -105,13 +112,14 @@
     "resource_id": "policy-003",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "logs:PutLogEvents",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -120,14 +128,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.20.30.0/24",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-5",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -141,7 +150,8 @@
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-1"
+      "owner": "team-5",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -149,13 +159,14 @@
     "resource_id": "policy-004",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "s3:ListBucket",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-4"
+      "owner": "team-3",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -169,8 +180,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -183,8 +195,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-3"
+      "environment": "production",
+      "owner": "team-3",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -193,12 +206,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "*",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-5",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -207,14 +221,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 3306
       },
       "egress_allowed": true
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-4"
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -224,11 +239,12 @@
     "configuration": {
       "public_read": true,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-2"
+      "environment": "development",
+      "owner": "team-5",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -236,13 +252,14 @@
     "resource_id": "policy-006",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "s3:ListBucket",
       "principal": "*",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-3"
+      "environment": "staging",
+      "owner": "team-5",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -257,7 +274,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-3"
+      "owner": "team-3",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -270,8 +288,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-3"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -279,13 +298,14 @@
     "resource_id": "policy-007",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "dynamodb:Query",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "staging",
+      "owner": "team-4",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -299,8 +319,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -314,7 +335,8 @@
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-1"
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -322,13 +344,14 @@
     "resource_id": "policy-008",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "ec2:DescribeInstances",
       "principal": "*",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-4"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -337,14 +360,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "192.168.1.0/24",
+        "port": 5432
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -357,8 +381,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-3"
+      "environment": "production",
+      "owner": "team-3",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -367,12 +392,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "*",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-4"
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -381,14 +407,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-3",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -401,8 +428,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "production",
+      "owner": "team-5",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -410,13 +438,14 @@
     "resource_id": "policy-010",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "logs:PutLogEvents",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-5",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -426,13 +455,14 @@
     "configuration": {
       "ingress": {
         "cidr": "10.0.0.0/24",
-        "port": 443
+        "port": 5432
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-5"
+      "environment": "production",
+      "owner": "team-4",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -445,8 +475,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-5"
+      "environment": "production",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -454,13 +485,14 @@
     "resource_id": "policy-011",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:PutObject",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-2"
+      "owner": "team-4",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -470,13 +502,14 @@
     "configuration": {
       "ingress": {
         "cidr": "10.0.0.0/24",
-        "port": 443
+        "port": 3306
       },
       "egress_allowed": true
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-2"
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -489,8 +522,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -499,12 +533,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "s3:GetObject",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "testing",
+      "owner": "team-5",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -513,14 +548,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 3306
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-3"
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -533,8 +569,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-4"
+      "environment": "production",
+      "owner": "team-4",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -542,13 +579,14 @@
     "resource_id": "policy-013",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "ec2:DescribeInstances",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-2",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -557,14 +595,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 3306
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-5",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -578,7 +617,8 @@
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-5"
+      "owner": "team-2",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -587,12 +627,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "*",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-2"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -607,7 +648,8 @@
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-5"
+      "owner": "team-5",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -617,11 +659,12 @@
     "configuration": {
       "public_read": false,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-2",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -629,13 +672,14 @@
     "resource_id": "policy-015",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "s3:PutObject",
       "principal": "*",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-1"
+      "environment": "production",
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -650,7 +694,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-5"
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -664,7 +709,8 @@
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-5"
+      "owner": "team-5",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -672,13 +718,14 @@
     "resource_id": "policy-016",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "ec2:DescribeInstances",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-1",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -693,7 +740,8 @@
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-1"
+      "owner": "team-2",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -706,8 +754,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-2"
+      "environment": "development",
+      "owner": "team-4",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -716,12 +765,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "*",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-5"
+      "owner": "team-4",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -730,14 +780,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "192.168.1.0/24",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -750,8 +801,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -759,13 +811,14 @@
     "resource_id": "policy-018",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "s3:PutObject",
       "principal": "*",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-3"
+      "environment": "testing",
+      "owner": "team-5",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -776,11 +829,12 @@
       "ingress": {
         "cidr": "0.0.0.0/0"
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "production",
+      "owner": "team-3",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -793,8 +847,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -802,13 +857,14 @@
     "resource_id": "policy-019",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "dynamodb:Query",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-5"
+      "owner": "team-4",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -822,8 +878,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-5"
+      "environment": "staging",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -833,11 +890,12 @@
     "configuration": {
       "public_read": false,
       "encryption": false,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-2"
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -845,13 +903,14 @@
     "resource_id": "policy-020",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "ec2:DescribeInstances",
       "principal": "*",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-5"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -865,8 +924,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-3"
+      "environment": "testing",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -879,8 +939,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-3"
+      "environment": "development",
+      "owner": "team-4",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -888,13 +949,14 @@
     "resource_id": "policy-021",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "logs:PutLogEvents",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-3"
+      "environment": "testing",
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -909,7 +971,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-2"
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -923,7 +986,8 @@
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-3"
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -932,12 +996,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "s3:GetObject",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "testing",
+      "owner": "team-3",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -947,13 +1012,14 @@
     "configuration": {
       "ingress": {
         "cidr": "10.0.0.0/24",
-        "port": 443
+        "port": 22
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -967,7 +1033,8 @@
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-4"
+      "owner": "team-3",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -975,13 +1042,14 @@
     "resource_id": "policy-023",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "logs:PutLogEvents",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-5"
+      "environment": "testing",
+      "owner": "team-5",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -992,11 +1060,12 @@
       "ingress": {
         "cidr": "0.0.0.0/0"
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-5"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -1009,8 +1078,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-2"
+      "environment": "staging",
+      "owner": "team-1",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -1018,13 +1088,14 @@
     "resource_id": "policy-024",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "ec2:DescribeInstances",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-5"
+      "environment": "testing",
+      "owner": "team-3",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -1038,8 +1109,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-5"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -1052,8 +1124,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-4",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -1061,13 +1134,14 @@
     "resource_id": "policy-025",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:PutObject",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-1"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -1081,8 +1155,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-3",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -1095,8 +1170,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -1104,13 +1180,14 @@
     "resource_id": "policy-026",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "ec2:DescribeInstances",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-3"
+      "environment": "development",
+      "owner": "team-4",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -1119,14 +1196,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.20.30.0/24",
+        "port": 22
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-3"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -1136,11 +1214,12 @@
     "configuration": {
       "public_read": false,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-2"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -1149,12 +1228,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "*",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-3",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -1163,14 +1243,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "192.168.1.0/24",
+        "port": 3306
       },
       "egress_allowed": true
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-2"
+      "owner": "team-3",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -1183,8 +1264,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -1192,13 +1274,14 @@
     "resource_id": "policy-028",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:ListBucket",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-2"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -1207,14 +1290,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.20.30.0/24",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -1227,8 +1311,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-4"
+      "environment": "production",
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -1236,13 +1321,14 @@
     "resource_id": "policy-029",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:PutObject",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-3"
+      "owner": "team-1",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -1251,14 +1337,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
+        "cidr": "172.16.0.0/16",
         "port": 443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-3"
+      "environment": "staging",
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -1268,11 +1355,12 @@
     "configuration": {
       "public_read": false,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-4"
+      "environment": "staging",
+      "owner": "team-4",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -1280,13 +1368,14 @@
     "resource_id": "policy-030",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "dynamodb:Query",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-3"
+      "owner": "team-3",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -1295,14 +1384,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
+        "cidr": "172.16.0.0/16",
         "port": 443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "testing",
+      "owner": "team-5",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -1315,8 +1405,9 @@
       "versioning": false
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-5"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -1324,13 +1415,14 @@
     "resource_id": "policy-031",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "dynamodb:Query",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-3"
+      "environment": "production",
+      "owner": "team-5",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -1339,14 +1431,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -1359,8 +1452,9 @@
       "versioning": false
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -1368,13 +1462,14 @@
     "resource_id": "policy-032",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "dynamodb:Query",
       "principal": "*",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-5"
+      "environment": "production",
+      "owner": "team-2",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -1384,13 +1479,14 @@
     "configuration": {
       "ingress": {
         "cidr": "10.0.0.0/24",
-        "port": 443
+        "port": 5432
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-2"
+      "environment": "staging",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -1404,7 +1500,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-3"
+      "owner": "team-4",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -1412,13 +1509,14 @@
     "resource_id": "policy-033",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "s3:PutObject",
       "principal": "*",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-4"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -1427,14 +1525,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 3306
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-2",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -1444,11 +1543,12 @@
     "configuration": {
       "public_read": false,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-3"
+      "owner": "team-2",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -1456,13 +1556,14 @@
     "resource_id": "policy-034",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:PutObject",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -1476,8 +1577,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-2",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -1487,11 +1589,12 @@
     "configuration": {
       "public_read": false,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -1499,13 +1602,14 @@
     "resource_id": "policy-035",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "s3:PutObject",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -1514,14 +1618,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 3306
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-5",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -1531,11 +1636,12 @@
     "configuration": {
       "public_read": false,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "testing",
+      "owner": "team-5",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -1543,13 +1649,14 @@
     "resource_id": "policy-036",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "s3:ListBucket",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -1558,14 +1665,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
+        "cidr": "10.0.1.0/24",
         "port": 443
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-1"
+      "environment": "production",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -1575,11 +1683,12 @@
     "configuration": {
       "public_read": false,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -1588,12 +1697,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "s3:GetObject",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-5"
+      "environment": "development",
+      "owner": "team-2",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -1604,11 +1714,12 @@
       "ingress": {
         "cidr": "0.0.0.0/0"
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-5"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -1621,8 +1732,9 @@
       "versioning": false
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "production",
+      "owner": "team-3",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -1630,13 +1742,14 @@
     "resource_id": "policy-038",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "ec2:DescribeInstances",
       "principal": "*",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-5",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -1645,14 +1758,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "192.168.1.0/24",
+        "port": 3306
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -1665,8 +1779,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-2"
+      "environment": "production",
+      "owner": "team-4",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -1679,8 +1794,9 @@
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-3"
+      "environment": "staging",
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -1694,8 +1810,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-2"
+      "environment": "staging",
+      "owner": "team-3",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -1708,8 +1825,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-1"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -1723,7 +1841,8 @@
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-4"
+      "owner": "team-1",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -1737,8 +1856,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-2"
+      "environment": "staging",
+      "owner": "team-4",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -1751,8 +1871,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -1760,13 +1881,14 @@
     "resource_id": "policy-041",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:ListBucket",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-5"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -1775,14 +1897,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
+        "cidr": "192.168.1.0/24",
         "port": 443
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-2"
+      "owner": "team-3",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -1795,8 +1918,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -1805,12 +1929,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "s3:GetObject",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-4"
+      "environment": "staging",
+      "owner": "team-3",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -1824,8 +1949,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -1838,8 +1964,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-4"
+      "environment": "production",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -1847,13 +1974,14 @@
     "resource_id": "policy-043",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:PutObject",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-3"
+      "environment": "production",
+      "owner": "team-4",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -1862,14 +1990,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-2"
+      "owner": "team-3",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -1879,11 +2008,12 @@
     "configuration": {
       "public_read": false,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-5"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -1891,13 +2021,14 @@
     "resource_id": "policy-044",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "ec2:DescribeInstances",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -1906,14 +2037,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 3306
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-5"
+      "environment": "production",
+      "owner": "team-5",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -1926,8 +2058,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-2"
+      "environment": "production",
+      "owner": "team-3",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -1935,13 +2068,14 @@
     "resource_id": "policy-045",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:ListBucket",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -1950,14 +2084,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 3306
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-2"
+      "environment": "staging",
+      "owner": "team-2",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -1967,11 +2102,12 @@
     "configuration": {
       "public_read": true,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-4"
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -1979,13 +2115,14 @@
     "resource_id": "policy-046",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "logs:PutLogEvents",
       "principal": "*",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-2"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -1994,14 +2131,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "192.168.1.0/24",
+        "port": 22
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -2011,11 +2149,12 @@
     "configuration": {
       "public_read": false,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-2",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -2023,13 +2162,14 @@
     "resource_id": "policy-047",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "ec2:DescribeInstances",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-3",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -2043,8 +2183,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-4",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -2057,8 +2198,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2067,12 +2209,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "*",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-2"
+      "environment": "production",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -2081,14 +2224,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "192.168.1.0/24",
+        "port": 3306
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-2"
+      "environment": "production",
+      "owner": "team-4",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2101,8 +2245,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2110,13 +2255,14 @@
     "resource_id": "policy-049",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:ListBucket",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "staging",
+      "owner": "team-2",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -2125,14 +2271,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 22
       },
       "egress_allowed": true
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-5"
+      "owner": "team-4",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -2145,8 +2292,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -2154,13 +2302,14 @@
     "resource_id": "policy-050",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:ListBucket",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-4"
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -2169,14 +2318,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -2186,11 +2336,12 @@
     "configuration": {
       "public_read": true,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "production",
+      "owner": "team-4",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -2198,13 +2349,14 @@
     "resource_id": "policy-051",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "ec2:DescribeInstances",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-2",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -2213,14 +2365,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "192.168.1.0/24",
+        "port": 5432
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-2"
+      "owner": "team-1",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -2233,8 +2386,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-4"
+      "environment": "production",
+      "owner": "team-4",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2243,12 +2397,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "s3:GetObject",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-2",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -2263,7 +2418,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-1"
+      "owner": "team-1",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -2277,7 +2433,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-4"
+      "owner": "team-3",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2285,13 +2442,14 @@
     "resource_id": "policy-053",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "dynamodb:Query",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-3"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -2301,13 +2459,14 @@
     "configuration": {
       "ingress": {
         "cidr": "10.0.0.0/24",
-        "port": 443
+        "port": 3306
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -2320,8 +2479,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-5"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -2329,13 +2489,14 @@
     "resource_id": "policy-054",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "s3:ListBucket",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "staging",
+      "owner": "team-3",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2344,14 +2505,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "192.168.1.0/24",
+        "port": 22
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-5"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -2364,8 +2526,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-2"
+      "environment": "staging",
+      "owner": "team-1",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -2378,8 +2541,9 @@
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-4"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -2388,14 +2552,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 5432
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -2408,8 +2573,9 @@
       "versioning": false
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "production",
+      "owner": "team-3",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -2417,13 +2583,14 @@
     "resource_id": "policy-056",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:PutObject",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-5"
+      "owner": "team-5",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -2432,14 +2599,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 5432
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-4"
+      "environment": "staging",
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2452,8 +2620,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-2"
+      "environment": "staging",
+      "owner": "team-3",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -2461,13 +2630,14 @@
     "resource_id": "policy-057",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "logs:PutLogEvents",
       "principal": "*",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-2",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -2476,14 +2646,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
+        "cidr": "192.168.1.0/24",
         "port": 443
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -2496,8 +2667,9 @@
       "versioning": false
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-5"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -2506,12 +2678,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "*",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -2520,14 +2693,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
+        "cidr": "172.16.0.0/16",
         "port": 443
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-3",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2540,8 +2714,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -2549,13 +2724,14 @@
     "resource_id": "policy-059",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "dynamodb:Query",
       "principal": "*",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-3"
+      "owner": "team-3",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -2569,8 +2745,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-5"
+      "environment": "staging",
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -2583,8 +2760,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-3"
+      "environment": "development",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2592,13 +2770,14 @@
     "resource_id": "policy-060",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "ec2:DescribeInstances",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-5"
+      "environment": "staging",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -2613,7 +2792,8 @@
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-5"
+      "owner": "team-2",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -2626,8 +2806,9 @@
       "versioning": false
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -2635,13 +2816,14 @@
     "resource_id": "policy-061",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "s3:PutObject",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-1"
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -2650,14 +2832,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
+        "cidr": "192.168.1.0/24",
         "port": 443
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-3"
+      "owner": "team-3",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2670,8 +2853,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-3"
+      "environment": "staging",
+      "owner": "team-3",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -2679,13 +2863,14 @@
     "resource_id": "policy-062",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:ListBucket",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-3",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -2699,8 +2884,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-3"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -2713,8 +2899,9 @@
       "versioning": false
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-1"
+      "environment": "production",
+      "owner": "team-4",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -2722,13 +2909,14 @@
     "resource_id": "policy-063",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "ec2:DescribeInstances",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-5"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2738,13 +2926,14 @@
     "configuration": {
       "ingress": {
         "cidr": "10.0.0.0/24",
-        "port": 443
+        "port": 3306
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-1"
+      "environment": "testing",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2757,8 +2946,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-4",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -2766,13 +2956,14 @@
     "resource_id": "policy-064",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "logs:PutLogEvents",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-4"
+      "owner": "team-4",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2781,14 +2972,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 5432
       },
       "egress_allowed": true
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-4"
+      "owner": "team-4",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -2801,8 +2993,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -2816,7 +3009,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-1"
+      "owner": "team-2",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -2827,11 +3021,12 @@
       "ingress": {
         "cidr": "0.0.0.0/0"
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-1"
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -2844,8 +3039,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-3"
+      "environment": "production",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2853,13 +3049,14 @@
     "resource_id": "policy-066",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "dynamodb:Query",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-3",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -2874,7 +3071,8 @@
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-2"
+      "owner": "team-2",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -2887,8 +3085,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -2896,13 +3095,14 @@
     "resource_id": "policy-067",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:ListBucket",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-5"
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -2911,14 +3111,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -2928,11 +3129,12 @@
     "configuration": {
       "public_read": false,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -2940,13 +3142,14 @@
     "resource_id": "policy-068",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "s3:PutObject",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-5"
+      "environment": "staging",
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -2955,14 +3158,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
+        "cidr": "10.0.1.0/24",
         "port": 443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -2975,8 +3179,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -2984,13 +3189,14 @@
     "resource_id": "policy-069",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:ListBucket",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-5"
+      "environment": "development",
+      "owner": "team-5",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -2999,14 +3205,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-2",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -3020,7 +3227,8 @@
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-4"
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -3028,13 +3236,14 @@
     "resource_id": "policy-070",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "dynamodb:Query",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-1"
+      "owner": "team-3",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -3043,14 +3252,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "development",
+      "owner": "team-2",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -3060,11 +3270,12 @@
     "configuration": {
       "public_read": false,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-3"
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -3078,7 +3289,8 @@
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-2"
+      "owner": "team-5",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -3087,14 +3299,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 5432
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-5"
+      "environment": "production",
+      "owner": "team-3",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -3107,8 +3320,9 @@
       "versioning": false
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -3121,8 +3335,9 @@
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-5"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -3131,14 +3346,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 5432
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-1"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -3151,8 +3367,9 @@
       "versioning": false
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-5"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -3160,13 +3377,14 @@
     "resource_id": "policy-073",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "ec2:DescribeInstances",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "production",
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3180,8 +3398,9 @@
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-1"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -3194,8 +3413,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "staging",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3203,13 +3423,14 @@
     "resource_id": "policy-074",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:PutObject",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-2"
+      "environment": "staging",
+      "owner": "team-2",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -3224,7 +3445,8 @@
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-4"
+      "owner": "team-2",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -3238,7 +3460,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-5"
+      "owner": "team-4",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -3252,7 +3475,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-3"
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3261,14 +3485,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 22
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3281,8 +3506,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-5"
+      "environment": "development",
+      "owner": "team-4",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -3290,13 +3516,14 @@
     "resource_id": "policy-076",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "s3:PutObject",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-5"
+      "environment": "staging",
+      "owner": "team-1",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3305,14 +3532,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -3325,8 +3553,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-4"
+      "environment": "production",
+      "owner": "team-5",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -3339,8 +3568,9 @@
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-5"
+      "environment": "staging",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -3349,14 +3579,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "192.168.1.0/24",
+        "port": 5432
       },
       "egress_allowed": true
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-5"
+      "owner": "team-5",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -3370,7 +3601,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-4"
+      "owner": "team-5",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -3378,13 +3610,14 @@
     "resource_id": "policy-078",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "ec2:DescribeInstances",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-2"
+      "environment": "production",
+      "owner": "team-5",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -3393,14 +3626,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 5432
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-3"
+      "environment": "development",
+      "owner": "team-2",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -3413,8 +3647,9 @@
       "versioning": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-4",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -3422,13 +3657,14 @@
     "resource_id": "policy-079",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "logs:PutLogEvents",
       "principal": "*",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-2",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -3437,14 +3673,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 22
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "production",
+      "owner": "team-2",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -3457,8 +3694,9 @@
       "versioning": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-5"
+      "environment": "development",
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -3466,13 +3704,14 @@
     "resource_id": "policy-080",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "ec2:DescribeInstances",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-5"
+      "environment": "testing",
+      "owner": "team-2",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -3481,14 +3720,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 22
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -3501,8 +3741,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-1"
+      "environment": "production",
+      "owner": "team-2",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -3510,13 +3751,14 @@
     "resource_id": "policy-081",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "logs:PutLogEvents",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-2"
+      "owner": "team-5",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -3525,14 +3767,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.20.30.0/24",
+        "port": 22
       },
       "egress_allowed": true
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-2"
+      "owner": "team-1",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3545,8 +3788,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-3",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -3554,13 +3798,14 @@
     "resource_id": "policy-082",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "ec2:DescribeInstances",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-5"
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -3570,13 +3815,14 @@
     "configuration": {
       "ingress": {
         "cidr": "10.0.0.0/24",
-        "port": 443
+        "port": 3306
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-5"
+      "owner": "team-5",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -3589,8 +3835,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-3"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -3598,13 +3845,14 @@
     "resource_id": "policy-083",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "dynamodb:Query",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-2"
+      "environment": "staging",
+      "owner": "team-3",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -3613,14 +3861,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 22
       },
       "egress_allowed": true
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-1"
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -3634,7 +3883,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-2"
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -3642,13 +3892,14 @@
     "resource_id": "policy-084",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:ListBucket",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-3"
+      "owner": "team-1",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -3657,14 +3908,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-4"
+      "environment": "production",
+      "owner": "team-4",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -3677,8 +3929,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-2",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -3686,13 +3939,14 @@
     "resource_id": "policy-085",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:PutObject",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -3701,14 +3955,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.20.30.0/24",
+        "port": 3306
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-5"
+      "environment": "staging",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3722,7 +3977,8 @@
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-3"
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3730,13 +3986,14 @@
     "resource_id": "policy-086",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:PutObject",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-5"
+      "environment": "production",
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3746,13 +4003,14 @@
     "configuration": {
       "ingress": {
         "cidr": "10.0.0.0/24",
-        "port": 443
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -3765,8 +4023,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-2"
+      "environment": "staging",
+      "owner": "team-4",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -3775,12 +4034,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "s3:GetObject",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-4"
+      "owner": "team-5",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -3789,14 +4049,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "192.168.1.0/24",
+        "port": 22
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "production",
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3806,11 +4067,12 @@
     "configuration": {
       "public_read": false,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -3823,8 +4085,9 @@
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-2"
+      "environment": "testing",
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3839,7 +4102,8 @@
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-4"
+      "owner": "team-2",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -3853,7 +4117,8 @@
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-5"
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3861,13 +4126,14 @@
     "resource_id": "policy-089",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "logs:PutLogEvents",
       "principal": "*",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -3876,14 +4142,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "192.168.1.0/24",
+        "port": 22
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-5"
+      "environment": "production",
+      "owner": "team-4",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -3896,8 +4163,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-5"
+      "environment": "production",
+      "owner": "team-2",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3906,12 +4174,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "s3:GetObject",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-3"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -3920,14 +4189,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 3306
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "staging",
+      "owner": "team-5",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -3940,8 +4210,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-2"
+      "environment": "staging",
+      "owner": "team-3",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3950,12 +4221,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "s3:GetObject",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-1"
+      "owner": "team-3",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -3970,7 +4242,8 @@
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-3"
+      "owner": "team-2",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -3983,8 +4256,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-3"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -3992,13 +4266,14 @@
     "resource_id": "policy-092",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "ec2:DescribeInstances",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -4007,14 +4282,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.0.1.0/24",
+        "port": 22
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -4027,8 +4303,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-2",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -4037,12 +4314,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "*",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/alice",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-5"
+      "environment": "development",
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -4051,14 +4329,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 8443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -4071,8 +4350,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-3"
+      "environment": "development",
+      "owner": "team-1",
+      "tags_count": 2
     },
     "label": 1
   },
@@ -4081,12 +4361,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "s3:GetObject",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-1"
+      "owner": "team-5",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -4095,14 +4376,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
+        "cidr": "192.168.1.0/24",
         "port": 443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-5"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -4115,8 +4397,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "staging",
-      "owner": "team-3"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -4125,12 +4408,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "s3:GetObject",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-4"
+      "owner": "team-2",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -4139,14 +4423,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "172.16.0.0/16",
+        "port": 3306
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -4156,11 +4441,12 @@
     "configuration": {
       "public_read": false,
       "encryption": true,
-      "versioning": true
+      "versioning": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 4
     },
     "label": 0
   },
@@ -4168,13 +4454,14 @@
     "resource_id": "policy-096",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "logs:PutLogEvents",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-2"
+      "owner": "team-5",
+      "tags_count": 2
     },
     "label": 0
   },
@@ -4189,7 +4476,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-3"
+      "owner": "team-3",
+      "tags_count": 5
     },
     "label": 1
   },
@@ -4202,8 +4490,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-3"
+      "environment": "testing",
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -4211,13 +4500,14 @@
     "resource_id": "policy-097",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
-      "principal": "specific-user",
+      "action": "s3:ListBucket",
+      "principal": "arn:aws:iam::123456789012:user/bob",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-3"
+      "environment": "production",
+      "owner": "team-1",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -4232,7 +4522,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-5"
+      "owner": "team-1",
+      "tags_count": 4
     },
     "label": 1
   },
@@ -4246,7 +4537,8 @@
     },
     "metadata": {
       "environment": "production",
-      "owner": "team-5"
+      "owner": "team-2",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -4255,12 +4547,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "*",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-5"
+      "owner": "team-5",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -4271,11 +4564,12 @@
       "ingress": {
         "cidr": "0.0.0.0/0"
       },
-      "egress_allowed": true
+      "egress_allowed": false
     },
     "metadata": {
-      "environment": "production",
-      "owner": "team-4"
+      "environment": "testing",
+      "owner": "team-4",
+      "tags_count": 3
     },
     "label": 1
   },
@@ -4289,7 +4583,8 @@
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-3"
+      "owner": "team-4",
+      "tags_count": 6
     },
     "label": 1
   },
@@ -4298,12 +4593,13 @@
     "resource_type": "iam_policy",
     "configuration": {
       "action": "s3:GetObject",
-      "principal": "specific-user",
+      "principal": "arn:aws:iam::123456789012:role/deploy-role",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "staging",
-      "owner": "team-3"
+      "owner": "team-1",
+      "tags_count": 5
     },
     "label": 0
   },
@@ -4312,14 +4608,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
+        "cidr": "192.168.1.0/24",
         "port": 443
       },
       "egress_allowed": true
     },
     "metadata": {
-      "environment": "testing",
-      "owner": "team-1"
+      "environment": "development",
+      "owner": "team-3",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -4332,8 +4629,9 @@
       "versioning": true
     },
     "metadata": {
-      "environment": "development",
-      "owner": "team-4"
+      "environment": "production",
+      "owner": "team-5",
+      "tags_count": 6
     },
     "label": 0
   },
@@ -4341,13 +4639,14 @@
     "resource_id": "policy-100",
     "resource_type": "iam_policy",
     "configuration": {
-      "action": "s3:GetObject",
+      "action": "s3:PutObject",
       "principal": "specific-user",
       "resource": "arn:aws:s3:::example-bucket/*"
     },
     "metadata": {
       "environment": "testing",
-      "owner": "team-1"
+      "owner": "team-4",
+      "tags_count": 3
     },
     "label": 0
   },
@@ -4356,14 +4655,15 @@
     "resource_type": "security_group",
     "configuration": {
       "ingress": {
-        "cidr": "10.0.0.0/24",
-        "port": 443
+        "cidr": "10.20.30.0/24",
+        "port": 22
       },
       "egress_allowed": true
     },
     "metadata": {
       "environment": "development",
-      "owner": "team-5"
+      "owner": "team-3",
+      "tags_count": 6
     },
     "label": 0
   }

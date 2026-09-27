@@ -4,6 +4,7 @@ import type {
   ScanDetail,
   Finding,
   UploadResponse,
+  AttackPathResponse,
 } from "./types";
 
 export const uploadScan = async (
@@ -43,5 +44,12 @@ export const getScanFindings = async (
   const { data } = await client.get(
     `/scans/${id}/findings`
   );
+  return data;
+};
+
+export const getAttackPaths = async (
+  id: string
+): Promise<AttackPathResponse> => {
+  const { data } = await client.get(`/scans/${id}/attack-paths`);
   return data;
 };

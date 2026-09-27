@@ -117,6 +117,23 @@ def extract_features(resource: dict[str, Any]) -> dict[str, Any]:
     )
 
     # -------------------------
+    # Behavioral / structural features
+    # (deliberately NOT derived from any rule condition -- these are what
+    # the Isolation Forest trains on, so it can flag fleet-odd resources
+    # even when no rule fires. See ml/train_isolation_forest.py.)
+    # -------------------------
+
+    owner = str(metadata.get("owner", ""))
+    try:
+        team_number = int(owner.rsplit("-", 1)[-1])
+    except ValueError:
+        team_number = 0
+
+    tags_count = int(
+        metadata.get("tags_count", 0) or 0
+    )
+
+    # -------------------------
     # Rule-correlated risk
     # -------------------------
 
@@ -153,6 +170,9 @@ def extract_features(resource: dict[str, Any]) -> dict[str, Any]:
 
         "is_production": is_production,
         "is_testing": is_testing,
+
+        "team_number": team_number,
+        "tags_count": tags_count,
 
         "rule_risk": rule_risk,
         "configuration_size": configuration_size,

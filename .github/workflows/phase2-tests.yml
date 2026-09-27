@@ -33,4 +33,7 @@ jobs:
           rm -f ci_migrations.db
 
       - name: Run test suite (Phase 1 rules + Phase 2 API)
-        run: python -m pytest backend/tests -q
+        # backend, not backend/tests -- per-feature suites living next to
+        # their code (e.g. backend/src/compliance/tests/) were previously
+        # never collected by CI at all.
+        run: python -m pytest backend -q

@@ -4,6 +4,7 @@ Tests for the Phase 7 compliance aggregation engine.
 
 from __future__ import annotations
 
+import importlib.util
 import sys
 from pathlib import Path
 from uuid import uuid4
@@ -22,14 +23,30 @@ from compliance.engine import build_compliance
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 RULES_DIR = REPO_ROOT / "rules"
+ALEMBIC_VERSIONS_DIR = REPO_ROOT / "backend" / "alembic" / "versions"
 
-EXPECTED_SEED_RULES = {
-    "CIS-AWS-001",
-    "CIS-AWS-002",
-    "CIS-AWS-003",
-    "CIS-AWS-004",
-    "CIS-AWS-005",
-}
+
+def _load_seed_migration_rule_ids() -> set[str]:
+    """Rule ids actually present in the seed_compliance_map migration's bulk
+    insert -- read from that file directly (not hand-copied into this test),
+    so this check catches the real gap: a rule added to rules/*.yaml whose
+    seed row was never added to the migration, not just a rule missing from
+    some third, independently-maintained list in this test file.
+    """
+    matches = sorted(ALEMBIC_VERSIONS_DIR.glob("*_seed_compliance_map.py"))
+    assert len(matches) == 1, (
+        f"Expected exactly one seed_compliance_map migration, found {matches}"
+    )
+
+    spec = importlib.util.spec_from_file_location("seed_compliance_map", matches[0])
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    return {row["rule_id"] for row in module._SEED}
+
+
+EXPECTED_SEED_RULES = _load_seed_migration_rule_ids()
 
 def _seed_session():
     engine = create_engine("sqlite://")
@@ -55,7 +72,12 @@ def _seed_session():
 
 def test_all_rule_yaml_ids_have_compliance_seed_rows():
     """
-    Every real rule YAML file must have a corresponding compliance-map seed.
+    Every real rule YAML file must have a corresponding compliance-map seed,
+    and vice versa -- checked against the actual seed_compliance_map
+    migration's data, not a hand-maintained list. Finding.rule_id is a hard
+    foreign key, so a rule added without a matching seed row doesn't just
+    show up as a compliance gap -- the next scan that triggers it fails at
+    Finding insert time.
 
     spec.yaml is documentation and is intentionally excluded.
     """

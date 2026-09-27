@@ -44,6 +44,15 @@ class FindingResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
+    finding_id: UUID = Field(
+        description=(
+            "Unique identifier of this finding. Already used internally by "
+            "the Phase 7 compliance engine (compliance/engine.py); exposed "
+            "here so other consumers (e.g. the Phase 6 attack-path API) "
+            "have a stable id to reference instead of resource_id."
+        ),
+        examples=["550e8400-e29b-41d4-a716-446655440001"],
+    )
     resource_id: str = Field(
         description="Unique identifier of the affected resource",
         examples=["bucket-001"],

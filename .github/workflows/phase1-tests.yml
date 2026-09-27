@@ -25,4 +25,7 @@ jobs:
           python -m pip install -r backend/requirements-dev.txt
 
       - name: Run Phase 1 tests
-        run: python -m pytest backend/tests -q
+        # backend, not backend/tests -- per-feature suites living next to
+        # their code (e.g. backend/src/compliance/tests/) were previously
+        # never collected by CI at all.
+        run: python -m pytest backend -q

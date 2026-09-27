@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { scans, scanDetailsById } from "./data";
+import { scans, scanDetailsById, attackPathsById } from "./data";
 
 // Paths are wildcarded (`*/scans`) so they match regardless of origin — the
 // Axios client sends requests to VITE_API_BASE_URL (e.g. http://localhost:8000),
@@ -11,7 +11,18 @@ export const handlers = [
     return HttpResponse.json(scans);
   }),
 
-  // More specific route first so it wins over "*/scans/:id".
+  // More specific routes first so they win over "*/scans/:id".
+  http.get("*/scans/:id/attack-paths", ({ params }) => {
+    const detail = scanDetailsById[params.id as string];
+    if (!detail) {
+      return HttpResponse.json({ detail: "Scan not found." }, { status: 404 });
+    }
+    const attackPaths = attackPathsById[params.id as string];
+    return HttpResponse.json(
+      attackPaths ?? { scan_id: params.id, nodes: [], links: [], paths: [] },
+    );
+  }),
+
   http.get("*/scans/:id/findings", ({ params }) => {
     const detail = scanDetailsById[params.id as string];
     if (!detail) {
