@@ -1,5 +1,10 @@
 import { http, HttpResponse } from "msw";
-import { scans, scanDetailsById, attackPathsById } from "./data";
+import {
+  scans,
+  scanDetailsById,
+  attackPathsById,
+  complianceById,
+} from "./data";
 
 // Paths are wildcarded (`*/scans`) so they match regardless of origin — the
 // Axios client sends requests to VITE_API_BASE_URL (e.g. http://localhost:8000),
@@ -14,28 +19,73 @@ export const handlers = [
   // More specific routes first so they win over "*/scans/:id".
   http.get("*/scans/:id/attack-paths", ({ params }) => {
     const detail = scanDetailsById[params.id as string];
+
     if (!detail) {
-      return HttpResponse.json({ detail: "Scan not found." }, { status: 404 });
+      return HttpResponse.json(
+        { detail: "Scan not found." },
+        { status: 404 },
+      );
     }
+
     const attackPaths = attackPathsById[params.id as string];
+
     return HttpResponse.json(
-      attackPaths ?? { scan_id: params.id, nodes: [], links: [], paths: [] },
+      attackPaths ?? {
+        scan_id: params.id,
+        nodes: [],
+        links: [],
+        paths: [],
+      },
+    );
+  }),
+
+  http.get("*/scans/:id/compliance", ({ params }) => {
+    const detail = scanDetailsById[params.id as string];
+
+    if (!detail) {
+      return HttpResponse.json(
+        { detail: "Scan not found." },
+        { status: 404 },
+      );
+    }
+
+    const compliance = complianceById[params.id as string];
+
+    return HttpResponse.json(
+      compliance ?? {
+        scan_id: params.id,
+        frameworks: {
+          CIS: { passed: 0, failed: 0, total: 0 },
+          NIST: { passed: 0, failed: 0, total: 0 },
+        },
+        controls: [],
+      },
     );
   }),
 
   http.get("*/scans/:id/findings", ({ params }) => {
     const detail = scanDetailsById[params.id as string];
+
     if (!detail) {
-      return HttpResponse.json({ detail: "Scan not found." }, { status: 404 });
+      return HttpResponse.json(
+        { detail: "Scan not found." },
+        { status: 404 },
+      );
     }
+
     return HttpResponse.json(detail.findings);
   }),
 
   http.get("*/scans/:id", ({ params }) => {
     const detail = scanDetailsById[params.id as string];
+
     if (!detail) {
-      return HttpResponse.json({ detail: "Scan not found." }, { status: 404 });
+      return HttpResponse.json(
+        { detail: "Scan not found." },
+        { status: 404 },
+      );
     }
+
     return HttpResponse.json(detail);
   }),
 
@@ -47,8 +97,12 @@ export const handlers = [
     // feature's error path can be exercised against mocks.
     const name = file instanceof File ? file.name : "";
     const ext = "." + (name.split(".").pop()?.toLowerCase() ?? "");
+
     if (!(file instanceof File) || !ALLOWED_EXTENSIONS.includes(ext)) {
-      return HttpResponse.json({ detail: "Unsupported file type." }, { status: 400 });
+      return HttpResponse.json(
+        { detail: "Unsupported file type." },
+        { status: 400 },
+      );
     }
 
     return HttpResponse.json({
@@ -57,11 +111,12 @@ export const handlers = [
       findings_count: scanDetailsById["1"].findings.length,
     });
   }),
+
   http.post("*/scans/cloud", () => {
     return HttpResponse.json({
-     scan_id: "3",
-     status: "COMPLETED",
-     findings_count: scanDetailsById["3"].findings.length,
+      scan_id: "3",
+      status: "COMPLETED",
+      findings_count: scanDetailsById["3"].findings.length,
     });
   }),
 ];

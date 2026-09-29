@@ -87,3 +87,29 @@ export interface AttackPathResponse {
   links: AttackPathLink[];
   paths: AttackPathEntry[];
 }
+
+export type ComplianceStatus = "PASS" | "FAIL";
+
+export type ComplianceFramework = "CIS" | "NIST";
+
+export interface FrameworkSummary {
+  passed: number;
+  failed: number;
+  total: number;
+}
+
+export interface ComplianceControl {
+  control_id: string;
+  framework: ComplianceFramework;
+  rule_id: string;
+  status: ComplianceStatus;
+  title: string;
+  finding_ids: string[];
+  remediation: string;
+}
+
+export interface ComplianceResponse {
+  scan_id: string;
+  frameworks: Record<ComplianceFramework, FrameworkSummary>;
+  controls: ComplianceControl[];
+}

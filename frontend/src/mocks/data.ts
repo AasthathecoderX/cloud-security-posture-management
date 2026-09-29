@@ -1,4 +1,9 @@
-import type { AttackPathResponse, ScanDetail, ScanSummary } from "../api/types";
+import type {
+  AttackPathResponse,
+  ComplianceResponse,
+  ScanDetail,
+  ScanSummary,
+} from "../api/types";
 
 // Mock data mirrors the real Phase 2 API shape: scan_type is the backend enum
 // ("STATIC" | "LIVE"), timestamps are ISO strings. risk_score/is_anomaly are
@@ -229,6 +234,218 @@ export const attackPathsById: Record<string, AttackPathResponse> = {
         id: "path-1",
         nodes: ["sg-example", "i-live-01", "example-bucket"],
         severity: "High",
+      },
+    ],
+  },
+};
+
+export const complianceById: Record<string, ComplianceResponse> = {
+  "1": {
+    scan_id: "1",
+    frameworks: {
+      CIS: { passed: 1, failed: 2, total: 3 },
+      NIST: { passed: 1, failed: 2, total: 3 },
+    },
+    controls: [
+      {
+        control_id: "CIS-2.1.5",
+        framework: "CIS",
+        rule_id: "S3-001",
+        status: "FAIL",
+        title: "S3 Bucket Public Read Access",
+        finding_ids: ["aws_s3_bucket.public_assets"],
+        remediation:
+          "Disable public read access and enable S3 Block Public Access on the bucket.",
+      },
+      {
+        control_id: "CIS-4.1",
+        framework: "CIS",
+        rule_id: "SG-014",
+        status: "FAIL",
+        title: "Security Group Unrestricted Access",
+        finding_ids: ["aws_security_group.web"],
+        remediation:
+          "Restrict inbound access to only the required ports and trusted sources.",
+      },
+      {
+        control_id: "CIS-5.1",
+        framework: "CIS",
+        rule_id: "IAM-007",
+        status: "FAIL",
+        title: "IAM Wildcard Permissions",
+        finding_ids: ["aws_iam_policy.admin"],
+        remediation:
+          "Avoid wildcard actions in IAM policies and grant only the permissions required.",
+      },
+      {
+        control_id: "NIST-AC-3",
+        framework: "NIST",
+        rule_id: "S3-001",
+        status: "FAIL",
+        title: "S3 Bucket Public Read Access",
+        finding_ids: ["aws_s3_bucket.public_assets"],
+        remediation:
+          "Disable public read access and enable S3 Block Public Access on the bucket.",
+      },
+      {
+        control_id: "NIST-AC-6",
+        framework: "NIST",
+        rule_id: "SG-014",
+        status: "FAIL",
+        title: "Security Group Unrestricted Access",
+        finding_ids: ["aws_security_group.web"],
+        remediation:
+          "Restrict inbound access to only the required ports and trusted sources.",
+      },
+      {
+        control_id: "NIST-IA-5",
+        framework: "NIST",
+        rule_id: "IAM-007",
+        status: "FAIL",
+        title: "IAM Wildcard Permissions",
+        finding_ids: ["aws_iam_policy.admin"],
+        remediation:
+          "Avoid wildcard actions in IAM policies and grant only the permissions required.",
+      },
+    ],
+  },
+
+  "2": {
+    scan_id: "2",
+    frameworks: {
+      CIS: { passed: 2, failed: 1, total: 3 },
+      NIST: { passed: 2, failed: 1, total: 3 },
+    },
+    controls: [
+      {
+        control_id: "CIS-2.1.1",
+        framework: "CIS",
+        rule_id: "S3-009",
+        status: "FAIL",
+        title: "S3 Bucket Access Logging",
+        finding_ids: ["aws_s3_bucket.logs"],
+        remediation:
+          "Enable access logging for the S3 bucket.",
+      },
+      {
+        control_id: "CIS-2.1.2",
+        framework: "CIS",
+        rule_id: "S3-001",
+        status: "PASS",
+        title: "S3 Bucket Public Read Access",
+        finding_ids: [],
+        remediation:
+          "Disable public read access and enable S3 Block Public Access on the bucket.",
+      },
+      {
+        control_id: "CIS-4.1",
+        framework: "CIS",
+        rule_id: "SG-014",
+        status: "PASS",
+        title: "Security Group Unrestricted Access",
+        finding_ids: [],
+        remediation:
+          "Restrict inbound access to only the required ports and trusted sources.",
+      },
+      {
+        control_id: "NIST-AU-2",
+        framework: "NIST",
+        rule_id: "S3-009",
+        status: "FAIL",
+        title: "S3 Bucket Access Logging",
+        finding_ids: ["aws_s3_bucket.logs"],
+        remediation:
+          "Enable access logging for the S3 bucket.",
+      },
+      {
+        control_id: "NIST-AC-3",
+        framework: "NIST",
+        rule_id: "S3-001",
+        status: "PASS",
+        title: "S3 Bucket Public Read Access",
+        finding_ids: [],
+        remediation:
+          "Disable public read access and enable S3 Block Public Access on the bucket.",
+      },
+      {
+        control_id: "NIST-AC-6",
+        framework: "NIST",
+        rule_id: "SG-014",
+        status: "PASS",
+        title: "Security Group Unrestricted Access",
+        finding_ids: [],
+        remediation:
+          "Restrict inbound access to only the required ports and trusted sources.",
+      },
+    ],
+  },
+
+  "3": {
+    scan_id: "3",
+    frameworks: {
+      CIS: { passed: 1, failed: 2, total: 3 },
+      NIST: { passed: 1, failed: 2, total: 3 },
+    },
+    controls: [
+      {
+        control_id: "CIS-2.1.5",
+        framework: "CIS",
+        rule_id: "S3-001",
+        status: "FAIL",
+        title: "S3 Bucket Public Read Access",
+        finding_ids: ["example-bucket"],
+        remediation:
+          "Disable public read access and enable S3 Block Public Access on the bucket.",
+      },
+      {
+        control_id: "CIS-4.1",
+        framework: "CIS",
+        rule_id: "SG-014",
+        status: "FAIL",
+        title: "Security Group Unrestricted Access",
+        finding_ids: ["sg-example"],
+        remediation:
+          "Restrict inbound access to only the required ports and trusted sources.",
+      },
+      {
+        control_id: "CIS-5.1",
+        framework: "CIS",
+        rule_id: "IAM-007",
+        status: "PASS",
+        title: "IAM Wildcard Permissions",
+        finding_ids: [],
+        remediation:
+          "Avoid wildcard actions in IAM policies and grant only the permissions required.",
+      },
+      {
+        control_id: "NIST-AC-3",
+        framework: "NIST",
+        rule_id: "S3-001",
+        status: "FAIL",
+        title: "S3 Bucket Public Read Access",
+        finding_ids: ["example-bucket"],
+        remediation:
+          "Disable public read access and enable S3 Block Public Access on the bucket.",
+      },
+      {
+        control_id: "NIST-AC-6",
+        framework: "NIST",
+        rule_id: "SG-014",
+        status: "FAIL",
+        title: "Security Group Unrestricted Access",
+        finding_ids: ["sg-example"],
+        remediation:
+          "Restrict inbound access to only the required ports and trusted sources.",
+      },
+      {
+        control_id: "NIST-IA-5",
+        framework: "NIST",
+        rule_id: "IAM-007",
+        status: "PASS",
+        title: "IAM Wildcard Permissions",
+        finding_ids: [],
+        remediation:
+          "Avoid wildcard actions in IAM policies and grant only the permissions required.",
       },
     ],
   },

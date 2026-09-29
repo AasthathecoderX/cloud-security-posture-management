@@ -1,9 +1,11 @@
 import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getScan } from "../api/scans";
 import Card from "../components/ui/Card";
 import Spinner from "../components/ui/Spinner";
 import FindingsTable from "./FindingsTable";
+import { CompliancePage } from "../features/compliance";
 
 /**
  * Member 3 — ScanDetailPage
@@ -13,6 +15,9 @@ import FindingsTable from "./FindingsTable";
  */
 export default function ScanDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const [activeTab, setActiveTab] = useState<
+    "findings" | "attack-paths" | "compliance"
+  >("findings");
 
   const {
     data: scan,
@@ -77,9 +82,47 @@ export default function ScanDetailPage() {
         </div>
       </Card>
 
-      <Card>
-        <FindingsTable findings={scan.findings} />
-      </Card>
+      <div className="flex gap-4 border-b">
+        <button
+          type="button"
+          onClick={() => setActiveTab("findings")}
+          className="pb-2"
+        >
+          Findings
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("attack-paths")}
+          className="pb-2"
+        >
+          Attack Paths
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("compliance")}
+          className="pb-2"
+        >
+          Compliance
+        </button>
+      </div>
+
+      {activeTab === "findings" && (
+        <Card>
+          <FindingsTable findings={scan.findings} />
+        </Card>
+      )}
+
+      {activeTab === "attack-paths" && (
+        <Card>
+          <p>Attack Paths will be added here.</p>
+        </Card>
+      )}
+
+      {activeTab === "compliance" && (
+        <CompliancePage scanId={id as string} />
+      )}
     </div>
   );
 }
