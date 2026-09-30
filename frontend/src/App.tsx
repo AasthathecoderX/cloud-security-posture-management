@@ -8,7 +8,6 @@ const UploadPage = lazy(() => import("./pages/UploadPage"));
 const ScansPage = lazy(() => import("./pages/ScansPage"));
 const ScanDetailPage = lazy(() => import("./pages/ScanDetailPage"));
 const DashboardPage = lazy(() => import("./features/dashboard/DashboardPage"));
-const AttackPathPage = lazy(() => import("./features/attack_paths/AttackPathPage"));
 
 export default function App() {
   return (
@@ -33,7 +32,6 @@ export default function App() {
             <Route path="/upload" element={<UploadPage />} />
             <Route path="/scans" element={<ScansPage />} />
             <Route path="/scans/:id" element={<ScanDetailPage />} />
-            <Route path="/scans/:id/attack-paths" element={<AttackPathPage />} />
           </Routes>
         </Suspense>
       </main>

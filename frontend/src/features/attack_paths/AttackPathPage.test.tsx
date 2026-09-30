@@ -1,7 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Route, Routes } from "react-router-dom";
 import AttackPathPage from "./AttackPathPage";
 import { renderWithProviders } from "../../test/utils";
 
@@ -16,13 +15,11 @@ vi.mock("react-force-graph-2d", () => ({
   default: () => <div data-testid="mock-force-graph" />,
 }));
 
-function renderAt(route: string) {
-  return renderWithProviders(
-    <Routes>
-      <Route path="/scans/:id/attack-paths" element={<AttackPathPage />} />
-    </Routes>,
-    { route },
-  );
+// AttackPathPage takes scanId as a prop (matching CompliancePage) rather
+// than reading a route param, since it's rendered as a ScanDetailPage tab,
+// not a route, now that Member 2 has wired both feature pages in that way.
+function renderFor(scanId: string) {
+  return renderWithProviders(<AttackPathPage scanId={scanId} />);
 }
 
 function resourceList() {
@@ -31,7 +28,7 @@ function resourceList() {
 
 describe("AttackPathPage", () => {
   it("renders the graph, path selector, and legend for a scan with paths", async () => {
-    renderAt("/scans/1/attack-paths");
+    renderFor("1");
 
     expect(await screen.findByText("Attack Paths")).toBeInTheDocument();
     expect(screen.getByText(/2 paths across 5 resources/i)).toBeInTheDocument();
@@ -43,7 +40,7 @@ describe("AttackPathPage", () => {
   });
 
   it("sorts paths most-severe first", async () => {
-    renderAt("/scans/1/attack-paths");
+    renderFor("1");
 
     await screen.findByText("Attack Paths");
     const pathButtons = screen.getAllByRole("button", { name: /^path-/i });
@@ -54,7 +51,7 @@ describe("AttackPathPage", () => {
   });
 
   it("toggles which path is highlighted, and resets on 'All'", async () => {
-    renderAt("/scans/1/attack-paths");
+    renderFor("1");
 
     await screen.findByText("Attack Paths");
     const allButton = screen.getByRole("button", { name: "All" });
@@ -72,7 +69,7 @@ describe("AttackPathPage", () => {
   });
 
   it("lists every node as a keyboard-reachable button, independent of the canvas", async () => {
-    renderAt("/scans/1/attack-paths");
+    renderFor("1");
 
     await screen.findByText("Attack Paths");
     const list = within(resourceList());
@@ -82,7 +79,7 @@ describe("AttackPathPage", () => {
   });
 
   it("shows node details, including a related-finding link, on node selection", async () => {
-    renderAt("/scans/1/attack-paths");
+    renderFor("1");
 
     await screen.findByText("Attack Paths");
     await userEvent.click(
@@ -97,7 +94,7 @@ describe("AttackPathPage", () => {
   });
 
   it("shows 'no associated finding' for a node with no finding_id", async () => {
-    renderAt("/scans/1/attack-paths");
+    renderFor("1");
 
     await screen.findByText("Attack Paths");
     await userEvent.click(
@@ -108,13 +105,13 @@ describe("AttackPathPage", () => {
   });
 
   it("shows a real, non-error empty state when a scan has no attack paths", async () => {
-    renderAt("/scans/2/attack-paths");
+    renderFor("2");
 
     expect(await screen.findByText(/no attack paths found/i)).toBeInTheDocument();
   });
 
   it("shows a friendly not-found view for an unknown scan (404)", async () => {
-    renderAt("/scans/does-not-exist/attack-paths");
+    renderFor("does-not-exist");
 
     expect(await screen.findByText(/scan not found/i)).toBeInTheDocument();
   });

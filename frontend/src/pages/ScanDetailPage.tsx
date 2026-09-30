@@ -6,6 +6,7 @@ import Card from "../components/ui/Card";
 import Spinner from "../components/ui/Spinner";
 import FindingsTable from "./FindingsTable";
 import { CompliancePage } from "../features/compliance";
+import { AttackPathPage } from "../features/attack_paths";
 
 /**
  * Member 3 — ScanDetailPage
@@ -114,11 +115,7 @@ export default function ScanDetailPage() {
         </Card>
       )}
 
-      {activeTab === "attack-paths" && (
-        <Card>
-          <p>Attack Paths will be added here.</p>
-        </Card>
-      )}
+      {activeTab === "attack-paths" && <AttackPathPage scanId={id as string} />}
 
       {activeTab === "compliance" && (
         <CompliancePage scanId={id as string} />

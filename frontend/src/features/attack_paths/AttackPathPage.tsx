@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getAttackPaths } from "../../api/scans";
 import type { AttackPathEntry, AttackPathNode, Severity } from "../../api/types";
@@ -18,27 +17,30 @@ const SEVERITY_ORDER: Record<Severity, number> = {
   Low: 3,
 };
 
+interface Props {
+  scanId: string;
+}
+
 /**
  * Member 4 — AttackPathPage (Wave B, Phase 6 frontend)
  *
  * Built against Member 3's published contract and a local mock
- * (frontend/src/mocks/data.ts -> attackPathsById) since the real
- * GET /scans/{id}/attack-paths endpoint doesn't exist yet -- swapping the
- * mock for the real API is just MSW no longer intercepting this route, no
- * change needed here.
+ * (frontend/src/mocks/data.ts -> attackPathsById) before Member 3's real
+ * endpoint existed -- swapping the mock for the real API was just MSW no
+ * longer intercepting the route, no change needed here.
  *
- * Not yet wired into a shared scan-detail tab nav (Member 2 hasn't built one
- * yet); reachable directly at /scans/:id/attack-paths in the meantime.
+ * Takes `scanId` as a prop (matching CompliancePage's pattern) rather than
+ * reading its own route param, since Member 2 wired both feature pages in
+ * as tabs on ScanDetailPage rather than separate routes.
  */
-export default function AttackPathPage() {
-  const { id } = useParams<{ id: string }>();
+export default function AttackPathPage({ scanId }: Props) {
   const [selectedPathId, setSelectedPathId] = useState<string | null>(null);
   const [selectedNode, setSelectedNode] = useState<AttackPathNode | null>(null);
 
   const query = useQuery({
-    queryKey: ["attack-paths", id],
-    queryFn: () => getAttackPaths(id as string),
-    enabled: Boolean(id),
+    queryKey: ["attack-paths", scanId],
+    queryFn: () => getAttackPaths(scanId),
+    enabled: Boolean(scanId),
   });
 
   const sortedPaths = useMemo(
@@ -153,7 +155,7 @@ export default function AttackPathPage() {
       {selectedNode && (
         <AttackPathDetails
           node={selectedNode}
-          scanId={id as string}
+          scanId={scanId}
           onClose={() => setSelectedNode(null)}
         />
       )}
