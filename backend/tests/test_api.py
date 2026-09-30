@@ -259,3 +259,121 @@ def test_unknown_scan_id_returns_404(client):
 
     r = client.get(f"/scans/{uuid.uuid4()}")
     assert r.status_code == 404
+
+# ---------------- Attack Paths (Member 3) ---------------- #
+
+def test_attack_paths_endpoint(client, env, monkeypatch):
+    """Attack-path endpoint returns the expected API structure."""
+
+    # Create a scan and finding directly in the test database.
+    with Session(env.engine) as session:
+        scan = m.Scan(
+            user_id=env.user_a,
+            filename="attack-path-demo",
+            scan_type=m.ScanType.LIVE,
+            status=m.ScanStatus.COMPLETED,
+        )
+        session.add(scan)
+        session.commit()
+        session.refresh(scan)
+
+        finding = m.Finding(
+            scan_id=scan.scan_id,
+            resource_id="i-001",
+            resource_type="ec2_instance",
+            severity=m.Severity.HIGH,
+            rule_id="CIS-AWS-001",
+            message="Public EC2 instance",
+            risk_score=92,
+            is_anomaly=True,
+        )
+        session.add(finding)
+        session.commit()
+        session.refresh(finding)
+
+        scan_id = scan.scan_id
+
+    # Provide deterministic cloud resources for the live scan.
+    resources = [
+        {
+            "resource_id": "i-001",
+            "resource_type": "ec2_instance",
+            "iam_instance_profile_arn":
+                "arn:aws:iam::123456789012:instance-profile/demo-profile",
+            "security_groups": ["sg-001"],
+        },
+        {
+            "resource_id": "demo-role",
+            "resource_type": "iam_role",
+            "instance_profile_arns": [
+                "arn:aws:iam::123456789012:instance-profile/demo-profile"
+            ],
+            "attached_policy_arns": [
+                "arn:aws:iam::123456789012:policy/demo-policy"
+            ],
+        },
+        {
+            "resource_id": "demo-policy",
+            "resource_type": "iam_policy",
+        },
+        {
+            "resource_id": "sg-001",
+            "resource_type": "security_group",
+            "ingress": {
+                "cidr": "0.0.0.0/0"
+            },
+        },
+    ]
+
+    # Patch the collector used by the attack-path route.
+    monkeypatch.setattr(
+        "attack_paths.routes.collect_cloud_resources",
+        lambda: resources,
+    )
+
+    response = client.get(
+        f"/scans/{scan_id}/attack-paths"
+    )
+
+    assert response.status_code == 200, response.text
+
+    body = response.json()
+
+    assert body["scan_id"] == str(scan_id)
+
+    assert len(body["nodes"]) == 4
+
+    assert any(
+        node["id"] == "i-001"
+        and node["type"] == "ec2_instance"
+        and node["severity"] == "High"
+        and node["risk_score"] == 92
+        and node["finding_id"] == str(finding.finding_id)
+        for node in body["nodes"]
+    )
+
+    assert {
+        "source": "i-001",
+        "target": "demo-role",
+        "relationship": "ASSUMES",
+    } in body["links"]
+
+    assert {
+        "source": "demo-role",
+        "target": "demo-policy",
+        "relationship": "HAS_PERMISSION",
+    } in body["links"]
+
+    assert {
+        "source": "internet",
+        "target": "i-001",
+        "relationship": "EXPOSES",
+    } in body["links"]
+
+    # No unsupported policy -> bucket relationship should be invented.
+    assert not any(
+        link["relationship"] == "ACCESSES"
+        for link in body["links"]
+    )
+
+    assert body["paths"] == []
