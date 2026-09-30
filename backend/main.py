@@ -22,6 +22,7 @@ from starlette.responses import JSONResponse
 from parser import MAX_FILE_SIZE
 from routes import router as scans_router
 from compliance.routes import router as compliance_router
+from attack_paths.routes import router as attack_paths_router
 
 app = FastAPI(title="CSPM API")
 
@@ -75,6 +76,7 @@ async def limit_request_body_size(request: Request, call_next):
 
 app.include_router(scans_router)
 app.include_router(compliance_router)
+app.include_router(attack_paths_router)
 
 
 @app.get("/health", tags=["system"])
@@ -82,3 +84,5 @@ def health() -> dict[str, str]:
     """Report that the API process is ready to receive requests."""
 
     return {"status": "ok"}
+
+

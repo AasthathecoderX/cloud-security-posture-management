@@ -203,6 +203,106 @@ RESOURCE_MAPPERS = {
     "security_group": map_security_group,
 }
 
+# ==========================================================
+# EC2 Instances - Wave B
+# ==========================================================
+
+def map_ec2_instance(
+    instance: Dict[str, Any],
+) -> Dict[str, Any]:
+    """
+    Convert an EC2 instance into the normalized resource format.
+
+    Includes:
+    - public/private IP
+    - security group attachments
+    - IAM instance profile ARN
+    """
+
+    security_groups = [
+        group.get("GroupId")
+        for group in instance.get("SecurityGroups", [])
+        if group.get("GroupId")
+    ]
+
+    iam_profile = instance.get("IamInstanceProfile") or {}
+
+    return {
+        "resource_id": instance.get("InstanceId", ""),
+        "resource_type": "ec2_instance",
+        "public_ip": instance.get("PublicIpAddress"),
+        "private_ip": instance.get("PrivateIpAddress"),
+        "security_groups": security_groups,
+        "iam_instance_profile_arn": iam_profile.get("Arn"),
+    }
+
+
+# ==========================================================
+# IAM Role Attachments - Wave B
+# ==========================================================
+
+def map_role_attachment(
+    role: Dict[str, Any],
+    attached_policies: List[Dict[str, Any]],
+    instance_profiles: List[Dict[str, Any]],
+) -> Dict[str, Any]:
+    """
+    Convert IAM role attachment information into graph relationships.
+
+    Produces:
+    - ASSUMES relationship information
+    - HAS_PERMISSION relationship information
+    """
+
+    role_name = role.get("RoleName", "")
+    role_arn = role.get("Arn", "")
+
+    policy_arns = [
+        policy.get("PolicyArn")
+        for policy in attached_policies
+        if policy.get("PolicyArn")
+    ]
+
+    profile_arns = [
+        profile.get("InstanceProfileArn")
+        for profile in instance_profiles
+        if profile.get("InstanceProfileArn")
+    ]
+
+    return {
+        "resource_id": role_name,
+        "resource_type": "iam_role",
+        "role_arn": role_arn,
+        "attached_policy_arns": policy_arns,
+        "instance_profile_arns": profile_arns,
+        "relationships": [
+            *[
+                {
+                    "source": role_name,
+                    "target": policy_arn,
+                    "relationship": "HAS_PERMISSION",
+                }
+                for policy_arn in policy_arns
+            ],
+            *[
+                {
+                    "source": profile_arn,
+                    "target": role_name,
+                    "relationship": "ASSUMES",
+                }
+                for profile_arn in profile_arns
+            ],
+        ],
+    }
+    
+    # ==========================================================
+# Wave B mapper registration
+# ==========================================================
+
+RESOURCE_MAPPERS.update({
+    "ec2_instance": map_ec2_instance,
+    "iam_role": map_role_attachment,
+})
 
 def map_resource(
     resource_type: str,

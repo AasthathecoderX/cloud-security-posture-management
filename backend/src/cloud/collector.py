@@ -360,6 +360,129 @@ class CloudCollector:
         )
 
         return resources
+    
+        # =====================================================
+    # EC2 Instances - Wave B
+    # =====================================================
+
+    def collect_ec2_instances(self) -> List[Dict[str, Any]]:
+        """
+        Collect EC2 instances and their relationship data.
+        """
+
+        logger.info("Collecting EC2 instances...")
+
+        resources = []
+
+        try:
+            response = self.ec2.describe_instances()
+
+            for reservation in response.get("Reservations", []):
+                for instance in reservation.get("Instances", []):
+
+                    try:
+                        resource = normalize_resource(
+                            "ec2_instance",
+                            instance,
+                        )
+
+                        resources.append(resource)
+
+                    except (ValueError, KeyError) as exc:
+                        logger.warning(
+                            "Skipping EC2 instance: %s",
+                            exc,
+                        )
+                        continue
+
+        except ClientError:
+            logger.exception(
+                "Unable to collect EC2 instances."
+            )
+
+        logger.info(
+            "Collected %d EC2 instance(s).",
+            len(resources),
+        )
+
+        return resources
+
+    # =====================================================
+    # IAM Role Attachments - Wave B
+    # =====================================================
+
+    def collect_iam_role_attachments(self) -> List[Dict[str, Any]]:
+        """
+        Collect IAM roles and their attached policies/instance profiles.
+        """
+
+        logger.info("Collecting IAM role attachments...")
+
+        resources = []
+
+        try:
+            paginator = self.iam.get_paginator("list_roles")
+
+            for page in paginator.paginate():
+
+                for role in page.get("Roles", []):
+
+                    role_name = role.get("RoleName")
+
+                    if not role_name:
+                        continue
+
+                    try:
+                        policy_response = (
+                            self.iam.list_attached_role_policies(
+                                RoleName=role_name
+                            )
+                        )
+
+                        profile_response = (
+                            self.iam.list_instance_profiles_for_role(
+                                RoleName=role_name
+                            )
+                        )
+
+                        resource = normalize_resource(
+                            "iam_role",
+                            role,
+                            policy_response.get(
+                                "AttachedPolicies", []
+                            ),
+                            profile_response.get(
+                                "InstanceProfiles", []
+                            ),
+                        )
+
+                        resources.append(resource)
+
+                    except (
+                        ClientError,
+                        ValueError,
+                        KeyError,
+                    ) as exc:
+
+                        logger.warning(
+                            "Skipping IAM role %s: %s",
+                            role_name,
+                            exc,
+                        )
+
+                        continue
+
+        except ClientError:
+            logger.exception(
+                "Unable to collect IAM roles."
+            )
+
+        logger.info(
+            "Collected %d IAM role attachment(s).",
+            len(resources),
+        )
+
+        return resources
 
     # =====================================================
     # Main Collector
@@ -400,6 +523,14 @@ class CloudCollector:
 
             self.collect_security_groups()
 
+        )
+        
+        resources.extend(
+            self.collect_ec2_instances()
+        )
+
+        resources.extend(
+            self.collect_iam_role_attachments()
         )
 
         logger.info(
