@@ -29,6 +29,7 @@ from auth.jwt import (
 from auth.schemas import LoginRequest, SignupRequest, UserResponse
 from db import get_session
 from models import User
+from rate_limit import limiter
 
 logger = logging.getLogger(__name__)
 
@@ -87,7 +88,9 @@ def _set_auth_cookies(
     response_model=UserResponse,
     status_code=status.HTTP_201_CREATED,
 )
+@limiter.limit("5/minute")
 def signup(
+    request: Request,
     payload: SignupRequest,
     response: Response,
     session: Session = Depends(get_session),
@@ -139,7 +142,9 @@ def signup(
     response_model=UserResponse,
     status_code=status.HTTP_200_OK,
 )
+@limiter.limit("5/minute")
 def login(
+    request: Request,
     payload: LoginRequest,
     response: Response,
     session: Session = Depends(get_session),

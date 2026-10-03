@@ -11,3 +11,4 @@ networkx==3.6.1
 pwdlib[argon2]
 pyjwt
 argon2-cffi
+slowapi==0.1.10

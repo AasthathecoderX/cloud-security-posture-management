@@ -20,9 +20,10 @@ import tempfile
 from pathlib import Path
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, File, HTTPException, Request, UploadFile, status
 from sqlmodel import Session, select
 from auth.dependencies import get_current_user
+from rate_limit import limiter
 
 from db import get_session
 from models import (
@@ -118,7 +119,9 @@ def _load_owned_scan(
     response_model=UploadResponse,
     responses={400: {"description": "Invalid upload or unparseable configuration"}},
 )
+@limiter.limit("20/minute")
 async def upload_scan(
+    request: Request,
     file: UploadFile = File(...),
     session: Session = Depends(get_session),
     user: User = Depends(get_current_user),

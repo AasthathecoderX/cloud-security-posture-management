@@ -68,6 +68,62 @@ AWS_SECRET_ACCESS_KEY = os.getenv(
     "test",
 )
 
+# ---------------------------------------------------------------------
+# Credential mode (Wave C, Member 4 -- STS AssumeRole guardrail)
+# ---------------------------------------------------------------------
+#
+# This project only ever runs against LocalStack, which does not meaningfully
+# emulate cross-account STS AssumeRole -- there is no second account to
+# assume a role into, so a real AssumeRole flow can't actually be exercised
+# or tested here. Building one anyway would be security-theater: code nobody
+# can verify works. Per the Wave C plan ("document + flag-gate, don't half-
+# build against LocalStack"), this is implemented, defaults OFF, and is
+# intended for a future real-AWS deployment, not for this project's own use.
+#
+# AWS_AUTH_MODE:
+#   "static"      (default) -- AWS_ACCESS_KEY_ID/AWS_SECRET_ACCESS_KEY above,
+#                  i.e. LocalStack's dummy "test"/"test" credentials. Never a
+#                  long-lived real-AWS key: nothing in this codebase reads
+#                  real AWS credentials from anywhere but environment
+#                  variables, and the default value is only ever the
+#                  LocalStack placeholder, not a real secret.
+#   "assume_role" -- for a real-AWS deployment only. Requires
+#                  AWS_ASSUME_ROLE_ARN and AWS_ASSUME_ROLE_EXTERNAL_ID: the
+#                  external id defends against the confused-deputy problem
+#                  (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html),
+#                  and is mandatory here, not optional, for exactly that
+#                  reason. No long-lived key is stored; the temporary
+#                  credentials returned by sts:AssumeRole are used for the
+#                  session only, never written to disk or logged.
+AWS_AUTH_MODE = os.getenv("AWS_AUTH_MODE", "static").strip().lower()
+
+AWS_ASSUME_ROLE_ARN = os.getenv("AWS_ASSUME_ROLE_ARN", "")
+AWS_ASSUME_ROLE_EXTERNAL_ID = os.getenv("AWS_ASSUME_ROLE_EXTERNAL_ID", "")
+
+
+def _assume_role_credentials() -> dict:
+    """
+    Exchange the role ARN + external id for temporary STS credentials.
+
+    Only reachable when AWS_AUTH_MODE=assume_role, which is never the case
+    against LocalStack in this project today -- see the module-level note.
+    """
+    if not AWS_ASSUME_ROLE_ARN or not AWS_ASSUME_ROLE_EXTERNAL_ID:
+        raise ValueError(
+            "AWS_AUTH_MODE=assume_role requires both AWS_ASSUME_ROLE_ARN "
+            "and AWS_ASSUME_ROLE_EXTERNAL_ID."
+        )
+
+    sts = boto3.client("sts", region_name=AWS_REGION)
+
+    response = sts.assume_role(
+        RoleArn=AWS_ASSUME_ROLE_ARN,
+        RoleSessionName="cspm-backend",
+        ExternalId=AWS_ASSUME_ROLE_EXTERNAL_ID,
+    )
+
+    return response["Credentials"]
+
 
 # ---------------------------------------------------------------------
 # Validate endpoint
@@ -118,14 +174,24 @@ BOTO_CONFIG = Config(
 # Session
 # ---------------------------------------------------------------------
 
-_SESSION = boto3.Session(
-
-    aws_access_key_id=AWS_ACCESS_KEY_ID,
-
-    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-
-    region_name=AWS_REGION,
-)
+if AWS_AUTH_MODE == "assume_role":
+    _creds = _assume_role_credentials()
+    _SESSION = boto3.Session(
+        aws_access_key_id=_creds["AccessKeyId"],
+        aws_secret_access_key=_creds["SecretAccessKey"],
+        aws_session_token=_creds["SessionToken"],
+        region_name=AWS_REGION,
+    )
+elif AWS_AUTH_MODE == "static":
+    _SESSION = boto3.Session(
+        aws_access_key_id=AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+        region_name=AWS_REGION,
+    )
+else:
+    raise ValueError(
+        f"Unknown AWS_AUTH_MODE '{AWS_AUTH_MODE}'. Use 'static' or 'assume_role'."
+    )
 
 
 # ---------------------------------------------------------------------
