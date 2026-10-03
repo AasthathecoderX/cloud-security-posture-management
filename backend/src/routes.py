@@ -22,6 +22,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from sqlmodel import Session, select
+from auth.dependencies import get_current_user
 
 from db import get_session
 from models import (
@@ -66,25 +67,14 @@ _MAX_FILENAME_LEN = 255
 
 
 def _safe_filename(raw: str) -> str:
-    """Reduce an untrusted upload filename to a safe, stored basename.
-
-    Defence-in-depth against stored XSS / header/log injection when the name is
-    later reflected by clients: keep only the final path component, drop control
-    characters (including newlines), and cap the length. Output encoding in the
-    UI remains the primary XSS control.
-    """
+    """Reduce an untrusted upload filename to a safe, stored basename."""
     name = Path(raw).name
     name = _CONTROL_CHARS.sub("", name)
     return name[:_MAX_FILENAME_LEN]
 
 
 def get_current_user(session: Session = Depends(get_session)) -> User:
-    """Return the current user.
-
-    Until authentication lands (Phase 8) this is a placeholder that, in
-    non-production environments only, get-or-creates a least-privilege
-    development user. In production it refuses to fabricate an identity.
-    """
+    """Return the current user."""
     user = session.exec(
         select(User).where(User.email == _DEV_USER_EMAIL)
     ).first()
@@ -99,8 +89,8 @@ def get_current_user(session: Session = Depends(get_session)) -> User:
 
     user = User(
         email=_DEV_USER_EMAIL,
-        password_hash="!",  # not a usable credential; auth arrives in Phase 8
-        role=UserRole.VIEWER,  # least privilege for the placeholder identity
+        password_hash="!",
+        role=UserRole.VIEWER,
     )
     session.add(user)
     session.commit()
@@ -156,8 +146,6 @@ async def upload_scan(
             ),
         )
 
-    # SecureParser reads from disk (size/depth/alias defences); write the upload
-    # to a temp file that preserves the extension, then always clean it up.
     tmp_path = None
     try:
         with tempfile.NamedTemporaryFile(
@@ -168,9 +156,6 @@ async def upload_scan(
         try:
             data = _parser.parse(tmp_path)
         except (ValueError, TimeoutError, RecursionError) as exc:
-            # Turn bad input into a clean 400 (never a 500 stack trace).
-            # RecursionError guards against deeply-nested JSON/YAML that blows
-            # the interpreter stack inside the underlying loader.
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=f"Could not parse configuration: {exc}",
@@ -213,6 +198,7 @@ async def upload_scan(
         findings_count=len(findings_data),
     )
 
+
 @router.post(
     "/scans/cloud",
     response_model=UploadResponse,
@@ -223,12 +209,9 @@ def scan_cloud_account(
     user: User = Depends(get_current_user),
 ) -> UploadResponse:
     """Collect live cloud resources, evaluate them, and store the scan."""
-
     try:
         resources = collect_cloud_resources()
     except Exception:
-        # Log the real cause server-side; the client only gets a generic
-        # message (do not expose internal cloud/SDK details to the client).
         logger.exception("Live cloud scan failed during resource collection.")
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
@@ -269,6 +252,7 @@ def scan_cloud_account(
         status=scan.status,
         findings_count=len(findings_data),
     )
+
 
 @router.get("/scans", response_model=list[ScanSummary])
 def list_scans(
