@@ -173,7 +173,15 @@ pass/fail + fixes for the same scan.
 
 **Goal:** turn the placeholder identity into a real, hardened multi-user platform
 (target: OWASP ASVS L1). This phase touches every endpoint, so we split it into
-four independent, clearly-bounded security domains.
+four independent, clearly-bounded security domains. Full detail:
+`guides/wave C/Wave_C_Detailed_Execution_Plan.md`.
+
+> **Not two independent branches like Waves A/B.** `get_current_user` lives inside
+> `routes.py` itself, and every Wave B endpoint (`compliance/routes.py`,
+> `attack_paths/routes.py`) already imports it from there — so Auth is a short
+> dependency chain (M1 → M2 ‖ M3 → M4), not two parallel trees. M1 relocates the
+> real implementation to `backend/src/auth/dependencies.py` and leaves a one-line
+> re-export in `routes.py`, so nobody else's import lines ever need to change.
 
 ### Member assignments
 
