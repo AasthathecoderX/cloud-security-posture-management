@@ -8,8 +8,8 @@ Wraps the Phase 1 SecureParser + RuleEngine over HTTP and persists results:
 - GET  /scans/{scan_id}        one scan with its findings
 - GET  /scans/{scan_id}/findings   findings for one scan
 
-Every query is scoped to the current user (placeholder dependency until auth in
-Phase 8). A scan that does not belong to the caller returns 404, not 403, so the
+Every query is scoped to the current user via the get_current_user dependency.
+A scan that does not belong to the caller returns 404, not 403, so the
 existence of other users' scans is not leaked (IDOR defence).
 """
 
@@ -22,10 +22,11 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, File, HTTPException, Request, UploadFile, status
 from sqlmodel import Session, select
-from auth.dependencies import get_current_user
-from rate_limit import limiter
 
+from auth.dependencies import get_current_user
+from cloud.collector import collect_cloud_resources
 from db import get_session
+from ml.scorer import score_findings
 from models import (
     Finding,
     Scan,
@@ -33,9 +34,9 @@ from models import (
     ScanType,
     Severity,
     User,
-    UserRole,
 )
 from parser import MAX_FILE_SIZE, SecureParser
+from rate_limit import limiter
 from rule_engine import RuleEngine
 from schemas import (
     ALLOWED_EXTENSIONS,
@@ -44,8 +45,6 @@ from schemas import (
     ScanSummary,
     UploadResponse,
 )
-from cloud.collector import collect_cloud_resources
-from ml.scorer import score_findings
 
 logger = logging.getLogger(__name__)
 
@@ -58,10 +57,6 @@ RULES_DIR = os.getenv("RULES_DIR", str(_DEFAULT_RULES_DIR))
 _engine = RuleEngine(rules_directory=RULES_DIR)
 _parser = SecureParser()
 
-# Placeholder identity until authentication lands in Phase 8. Tests override
-# this dependency to simulate different users.
-_DEV_USER_EMAIL = "dev@local"
-
 # Strips directory components / control characters from an untrusted filename.
 _CONTROL_CHARS = re.compile(r"[\x00-\x1f\x7f]")
 _MAX_FILENAME_LEN = 255
@@ -72,31 +67,6 @@ def _safe_filename(raw: str) -> str:
     name = Path(raw).name
     name = _CONTROL_CHARS.sub("", name)
     return name[:_MAX_FILENAME_LEN]
-
-
-def get_current_user(session: Session = Depends(get_session)) -> User:
-    """Return the current user."""
-    user = session.exec(
-        select(User).where(User.email == _DEV_USER_EMAIL)
-    ).first()
-    if user is not None:
-        return user
-
-    if os.getenv("CSPM_ENV", "development").lower() == "production":
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authentication required.",
-        )
-
-    user = User(
-        email=_DEV_USER_EMAIL,
-        password_hash="!",
-        role=UserRole.VIEWER,
-    )
-    session.add(user)
-    session.commit()
-    session.refresh(user)
-    return user
 
 
 router = APIRouter(tags=["scans"])

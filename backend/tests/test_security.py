@@ -6,7 +6,7 @@ M1/M2/M3's own suites already cover: forged tokens, missing auth, rate-limit
 abuse, and a misconfigured CORS origin. See docs/asvs-l1-checklist.md for how
 each test here maps to an ASVS L1 control.
 
-Three tests are marked `xfail(strict=True)`, tied to specific line items in
+Tests are marked `xfail(strict=True)` when tied to specific line items in
 `guides/wave C/Wave_C_Detailed_Execution_Plan.md`'s "Status check" table.
 They encode the behavior Wave C is *supposed* to have once M1/M3 finish, and
 are written now so they fail loudly (not silently skip) today, and so
@@ -133,15 +133,6 @@ def test_me_without_a_cookie_is_401(client):
     assert response.status_code == 401
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "Wave C Status check #1: routes.py's get_current_user is still "
-        "shadowed by the old dev-user placeholder, so a feature endpoint "
-        "accepts requests with no session at all. This should be 401. "
-        "Remove this xfail once the shadowing bug is fixed."
-    ),
-)
 def test_scans_without_a_cookie_is_401(client):
     test_client, _engine = client
     response = test_client.get("/scans")
@@ -230,17 +221,6 @@ def test_viewer_cannot_upload_a_scan(client):
     assert response.status_code == 403
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "Wave C Status check #1: because get_current_user is shadowed, "
-        "every request -- regardless of whose session cookie it carries -- "
-        "resolves to the same auto-created dev@local placeholder. Two real, "
-        "separately signed-up users therefore can't be distinguished, so "
-        "this can't yet prove scan ownership is scoped per real user. "
-        "Remove this xfail once the shadowing bug is fixed."
-    ),
-)
 def test_two_real_users_do_not_share_scan_ownership(client):
     test_client, engine = client
     csrf_token = _csrf(test_client)

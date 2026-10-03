@@ -1,5 +1,5 @@
-# backend/src/auth/routes.py
 import logging
+import os
 from typing import Annotated
 
 from fastapi import (
@@ -15,20 +15,19 @@ from fastapi import (
 from fastapi.responses import JSONResponse
 from sqlmodel import Session, select
 
-from auth.dependencies import get_current_user
+from auth.dependencies import ensure_csrf_cookie, get_current_user
 from auth.hashing import hash_password, verify_password
 from auth.jwt import (
     create_access_token,
     create_refresh_token,
     decode_token,
-    generate_csrf_token,
     revoke_refresh_token,
     rotate_refresh_token,
     verify_csrf_token,
 )
 from auth.schemas import LoginRequest, SignupRequest, UserResponse
 from db import get_session
-from models import User
+from models import User, UserRole
 from rate_limit import limiter
 
 logger = logging.getLogger(__name__)
@@ -39,6 +38,10 @@ COOKIE_ACCESS_TOKEN_KEY = "access_token"
 COOKIE_REFRESH_TOKEN_KEY = "refresh_token"
 COOKIE_CSRF_TOKEN_KEY = "csrf_token"
 HEADER_CSRF_TOKEN_KEY = "X-CSRF-Token"
+
+IS_PRODUCTION = os.getenv("CSPM_ENV", "development").lower() == "production"
+SECURE_COOKIES = os.getenv("SECURE_COOKIES", str(IS_PRODUCTION)).lower() == "true"
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "").lower().strip()
 
 
 def _verify_csrf(
@@ -73,12 +76,17 @@ def _set_auth_cookies(
         key=COOKIE_ACCESS_TOKEN_KEY,
         value=access_token,
         httponly=True,
+        secure=SECURE_COOKIES,
+        samesite="strict",
+        path="/",
     )
 
     response.set_cookie(
         key=COOKIE_REFRESH_TOKEN_KEY,
         value=refresh_token,
         httponly=True,
+        secure=SECURE_COOKIES,
+        samesite="strict",
         path="/auth",
     )
 
@@ -106,10 +114,14 @@ def signup(
             detail="Email already registered.",
         )
 
+    # Assign ADMIN role if matching configured ADMIN_EMAIL, default to VIEWER
+    is_admin = bool(ADMIN_EMAIL) and payload.email.lower() == ADMIN_EMAIL
+    assigned_role = UserRole.ADMIN if is_admin else UserRole.VIEWER
+
     user = User(
         email=payload.email,
         password_hash=hash_password(payload.password),
-        role="VIEWER",
+        role=assigned_role,
     )
 
     session.add(user)
@@ -244,7 +256,7 @@ def logout(
     if refresh_token:
         revoke_refresh_token(refresh_token)
 
-    response.delete_cookie(key=COOKIE_ACCESS_TOKEN_KEY)
+    response.delete_cookie(key=COOKIE_ACCESS_TOKEN_KEY, path="/")
     response.delete_cookie(key=COOKIE_REFRESH_TOKEN_KEY, path="/auth")
 
     return None
@@ -264,25 +276,14 @@ def get_me(
     ] = None,
     session: Session = Depends(get_session),
 ):
-    csrf_token = generate_csrf_token()
+    ensure_csrf_cookie(request, response)
 
     if not access_token:
-        res = JSONResponse(
+        return JSONResponse(
             status_code=status.HTTP_401_UNAUTHORIZED,
             content={"detail": "Not authenticated."},
+            headers=dict(response.headers),
         )
-        res.set_cookie(
-            key=COOKIE_CSRF_TOKEN_KEY,
-            value=csrf_token,
-            httponly=False,
-        )
-        return res
-
-    response.set_cookie(
-        key=COOKIE_CSRF_TOKEN_KEY,
-        value=csrf_token,
-        httponly=False,
-    )
 
     user = get_current_user(
         request=request,
