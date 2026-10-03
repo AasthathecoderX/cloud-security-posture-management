@@ -8,3 +8,6 @@ alembic==1.18.5
 python-dotenv==1.2.2
 python-multipart==0.0.32
 networkx==3.6.1
+pwdlib[argon2]
+pyjwt
+argon2-cffi
