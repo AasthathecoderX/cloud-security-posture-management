@@ -1,6 +1,7 @@
 import logging
 import os
 from typing import Annotated
+from auth.audit import log_event
 
 from fastapi import (
     APIRouter,
@@ -127,6 +128,12 @@ def signup(
     session.add(user)
     session.commit()
     session.refresh(user)
+
+    log_event(
+        session=session,
+        user_id=user.user_id,
+        action="signup_success",
+    )
 
     acc_token = create_access_token(
         user_id=user.user_id,

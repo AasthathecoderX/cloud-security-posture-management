@@ -24,6 +24,8 @@ from fastapi import APIRouter, Depends, File, HTTPException, Request, UploadFile
 from sqlmodel import Session, select
 
 from auth.dependencies import get_current_user
+from auth.audit import log_event
+from auth.rbac import require_role
 from cloud.collector import collect_cloud_resources
 from db import get_session
 from ml.scorer import score_findings
@@ -34,6 +36,7 @@ from models import (
     ScanType,
     Severity,
     User,
+    UserRole,
 )
 from parser import MAX_FILE_SIZE, SecureParser
 from rate_limit import limiter
@@ -78,6 +81,11 @@ def _load_owned_scan(
     """Fetch a scan scoped to the caller, or raise 404 (IDOR-safe)."""
     scan = session.get(Scan, scan_id)
     if scan is None or scan.user_id != user.user_id:
+        log_event(
+            session=session,
+            user_id=user.user_id,
+            action="scan_access_denied",
+        )
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Scan not found."
         )
@@ -88,6 +96,7 @@ def _load_owned_scan(
     "/scans/upload",
     response_model=UploadResponse,
     responses={400: {"description": "Invalid upload or unparseable configuration"}},
+    dependencies=[Depends(require_role(UserRole.ADMIN))],
 )
 @limiter.limit("20/minute")
 async def upload_scan(
@@ -176,6 +185,7 @@ async def upload_scan(
     "/scans/cloud",
     response_model=UploadResponse,
     responses={502: {"description": "Cloud collection failed"}},
+    dependencies=[Depends(require_role(UserRole.ADMIN))],
 )
 def scan_cloud_account(
     session: Session = Depends(get_session),
@@ -227,7 +237,7 @@ def scan_cloud_account(
     )
 
 
-@router.get("/scans", response_model=list[ScanSummary])
+@router.get("/scans", response_model=list[ScanSummary], dependencies=[Depends(require_role(UserRole.ADMIN, UserRole.VIEWER))])
 def list_scans(
     session: Session = Depends(get_session),
     user: User = Depends(get_current_user),
@@ -244,6 +254,7 @@ def list_scans(
     "/scans/{scan_id}",
     response_model=ScanDetail,
     responses={404: {"description": "Scan not found"}},
+    dependencies=[Depends(require_role(UserRole.ADMIN, UserRole.VIEWER))],
 )
 def get_scan(
     scan_id: UUID,
@@ -258,6 +269,7 @@ def get_scan(
     "/scans/{scan_id}/findings",
     response_model=list[FindingResponse],
     responses={404: {"description": "Scan not found"}},
+    dependencies=[Depends(require_role(UserRole.ADMIN, UserRole.VIEWER))],
 )
 def get_scan_findings(
     scan_id: UUID,
