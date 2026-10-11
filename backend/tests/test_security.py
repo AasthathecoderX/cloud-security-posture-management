@@ -188,15 +188,6 @@ def test_signup_rate_limit_returns_429_after_five_attempts(client):
 # --------------------------------------------------------------------------
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "Wave C Status check #2: every signup is hardcoded to VIEWER with "
-        "no bootstrap path to ADMIN, and require_role() doesn't exist yet "
-        "(Member 3's work). A Viewer should get 403 on upload; today there "
-        "is no role check at all. Remove this xfail once both land."
-    ),
-)
 def test_viewer_cannot_upload_a_scan(client):
     test_client, _engine = client
     csrf_token = _csrf(test_client)
@@ -221,32 +212,47 @@ def test_viewer_cannot_upload_a_scan(client):
     assert response.status_code == 403
 
 
-def test_two_real_users_do_not_share_scan_ownership(client):
+def test_real_admin_scan_is_hidden_from_second_real_user(client, monkeypatch):
+    import auth.routes as auth_routes
+    monkeypatch.setattr(auth_routes, "ADMIN_EMAIL", "admin@example.com")
     test_client, engine = client
     csrf_token = _csrf(test_client)
 
-    alice = test_client.post(
+    admin_signup = test_client.post(
         "/auth/signup",
         headers={"X-CSRF-Token": csrf_token},
-        json={"email": "alice@example.com", "password": "CorrectPassword123!"},
-    ).json()
+        json={"email": "admin@example.com", "password": "CorrectPassword123!"},
+    )
+    assert admin_signup.status_code == 201
+    assert admin_signup.json()["role"] == "ADMIN"
 
-    test_client.post(
+    upload = test_client.post(
         "/scans/upload",
         headers={"X-CSRF-Token": csrf_token},
-        files={
-            "file": (
-                "x.json",
-                b'{"resource_id":"a","resource_type":"s3_bucket"}',
-                "application/json",
-            )
-        },
+        files={"file": ("x.json", b'{"resource_id":"a","resource_type":"s3_bucket"}', "application/json")},
     )
+    assert upload.status_code == 200
+    scan_id = upload.json()["scan_id"]
 
+    # Switch to a distinct, real Viewer account using the same test browser.
+    test_client.cookies.delete("access_token")
+    test_client.cookies.delete("refresh_token")
+    viewer_signup = test_client.post(
+        "/auth/signup",
+        headers={"X-CSRF-Token": csrf_token},
+        json={"email": "viewer@example.com", "password": "CorrectPassword123!"},
+    )
+    assert viewer_signup.status_code == 201
+    assert viewer_signup.json()["role"] == "VIEWER"
+    assert test_client.get(f"/scans/{scan_id}").status_code == 404
+
+    # The scan remains owned by the Admin who created it.
     import models as m
     from sqlmodel import select
-
     with Session(engine) as session:
         scans = session.exec(select(m.Scan)).all()
         assert len(scans) == 1
-        assert str(scans[0].user_id) == alice["user_id"]
+        assert str(scans[0].user_id) == admin_signup.json()["user_id"]
+        audit_actions = [row.action for row in session.exec(select(m.AuditLog)).all()]
+        assert "scan_access_denied" in audit_actions
+        assert "signup_success" in audit_actions
