@@ -226,14 +226,25 @@ cloud keys; audit log populated.
 
 # Wave D — Phase 9 (DevOps/CI-CD) + Phase 10 (Deployment)
 
-**Goal:** one-command setup, security-gated CI/CD, and a live public URL.
+**Goal:** one-command setup, security-gated CI/CD, and a live public URL. Full
+detail: `guides/wave D/Wave_D_Detailed_Execution_Plan.md`.
+
+> **A chain, not a tree.** Unlike Waves A/B's independent branches, this one is
+> linear (M1 → M4 → M2 ‖ M3), and even M2/M3's "parallel" halves share one real
+> handoff — each needs the other's deployed URL before CORS/API-base-URL can be
+> final. Three decisions are made explicit up front rather than improvised:
+> skip the frontend Docker image (Vercel builds from source, needs none), build
+> the backend image on the VM rather than pushing to a registry, and give the
+> scheduled scan its own service account rather than inventing new auth for it.
 
 ### Member assignments
 
 **M1 — Containerization + Scheduled Self-Scan.**
-- Production Docker images for frontend + backend; a production `docker-compose`;
-  a **cron scheduled scan** job against hosted LocalStack.
-- **Delivers →** the container images the deploy jobs consume.
+- A hardened (non-root) backend image, a production `docker-compose` (no local
+  Postgres — Neon instead, per M3), and a **cron scheduled scan** job against
+  hosted LocalStack — authenticating as a dedicated service account through the
+  same login flow a browser uses, since Wave C's auth now gates `/scans/cloud`.
+- **Delivers →** the hardened image + compose file M3's deploy consumes.
 
 **M4 — CI/CD Security Pipeline.**
 - GitHub Actions running tests + the **security scanner suite** (Bandit, Semgrep,
