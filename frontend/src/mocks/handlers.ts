@@ -5,13 +5,111 @@ import {
   attackPathsById,
   complianceById,
 } from "./data";
+import type { UserResponse } from "../api/types";
 
-// Paths are wildcarded (`*/scans`) so they match regardless of origin — the
-// Axios client sends requests to VITE_API_BASE_URL (e.g. http://localhost:8000),
-// not the page origin, so a bare "/scans" would never intercept them.
+// Mock authentication state for local development and tests.
+let mockCurrentUser: UserResponse | null = null;
+
+function ensureMockCsrfCookie() {
+  if (
+    typeof document !== "undefined" &&
+    !document.cookie.includes("csrf_token=")
+  ) {
+    document.cookie =
+      "csrf_token=mock-csrf-token; path=/; SameSite=Strict";
+  }
+}
+
+function hasMockCsrfToken(request: Request): boolean {
+  ensureMockCsrfCookie();
+  return request.headers.get("X-CSRF-Token") === "mock-csrf-token";
+}
+
+// Paths are wildcarded so handlers match regardless of API origin.
 const ALLOWED_EXTENSIONS = [".json", ".yaml", ".yml"];
 
 export const handlers = [
+  // Authentication handlers
+  http.get("*/auth/me", () => {
+    ensureMockCsrfCookie();
+
+    if (!mockCurrentUser) {
+      return HttpResponse.json(
+        { detail: "Not authenticated." },
+        { status: 401 },
+      );
+    }
+
+    return HttpResponse.json(mockCurrentUser);
+  }),
+
+  http.post("*/auth/login", async ({ request }) => {
+    if (!hasMockCsrfToken(request)) {
+      return HttpResponse.json(
+        { detail: "Invalid CSRF token." },
+        { status: 403 },
+      );
+    }
+
+    const body = (await request.json()) as {
+      email: string;
+      password: string;
+    };
+
+    if (
+      body.email !== "demo@example.com" ||
+      body.password !== "Password123!"
+    ) {
+      return HttpResponse.json(
+        { detail: "Invalid email or password." },
+        { status: 401 },
+      );
+    }
+
+    mockCurrentUser = {
+      user_id: "mock-user-1",
+      email: body.email,
+      role: "Admin",
+    };
+
+    return HttpResponse.json(mockCurrentUser);
+  }),
+
+  http.post("*/auth/signup", async ({ request }) => {
+    if (!hasMockCsrfToken(request)) {
+      return HttpResponse.json(
+        { detail: "Invalid CSRF token." },
+        { status: 403 },
+      );
+    }
+
+    const body = (await request.json()) as {
+      email: string;
+      password: string;
+    };
+
+    if (!body.email || !body.password) {
+      return HttpResponse.json(
+        { detail: "Email and password are required." },
+        { status: 422 },
+      );
+    }
+
+    mockCurrentUser = {
+      user_id: "mock-user-2",
+      email: body.email,
+      role: "Viewer",
+    };
+
+    return HttpResponse.json(mockCurrentUser, { status: 201 });
+  }),
+
+  http.post("*/auth/logout", () => {
+    mockCurrentUser = null;
+    return new HttpResponse(null, { status: 204 });
+  }),
+
+  // Existing scan handlers
   http.get("*/scans", () => {
     return HttpResponse.json(scans);
   }),
@@ -93,8 +191,7 @@ export const handlers = [
     const form = await request.formData();
     const file = form.get("file");
 
-    // Mirror the server's 400 for an unsupported file type so the upload
-    // feature's error path can be exercised against mocks.
+    // Mirror the server's 400 for an unsupported file type.
     const name = file instanceof File ? file.name : "";
     const ext = "." + (name.split(".").pop()?.toLowerCase() ?? "");
 

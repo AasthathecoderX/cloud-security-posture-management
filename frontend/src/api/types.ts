@@ -113,3 +113,10 @@ export interface ComplianceResponse {
   frameworks: Record<ComplianceFramework, FrameworkSummary>;
   controls: ComplianceControl[];
 }
+
+
+export interface UserResponse {
+  user_id: string;
+  email: string;
+  role: string;
+}
