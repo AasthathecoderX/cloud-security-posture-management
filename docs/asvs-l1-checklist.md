@@ -6,9 +6,15 @@ verified yet, it's marked **BLOCKED** with the specific gap from
 `guides/wave C/Wave_C_Detailed_Execution_Plan.md`'s "Status check" table, not left
 silently unchecked.
 
-**This checklist is not signed off.** Three controls are blocked on M1/M3 work in
-progress (see the Status check table in the Wave C plan). Do not represent this as
-a completed ASVS L1 pass until those three close.
+**Update (re-verified after M1's and M3's follow-up commits):** all three
+previously-blocked controls are now closed — re-read directly against the merged
+code (`routes.py`, `auth/routes.py`, `auth/rbac.py`, `auth/dependencies.py`), not
+assumed from a commit message, and confirmed by the now-passing (no longer
+`xfail`) tests in `backend/tests/test_security.py`. One new, unrelated gap turned
+up while re-verifying (see V14) and is fixed below. One item remains genuinely
+operational, not a code gap (see V14's last line).
+
+**This checklist is signed off for everything except that one operational item.**
 
 ---
 
@@ -28,17 +34,18 @@ a completed ASVS L1 pass until those three close.
 | Control | Status | Evidence |
 | --- | --- | --- |
 | Session tokens delivered via `httpOnly` cookies, never in a JSON body or `localStorage` | ✅ | `auth/schemas.py` docstring: *"JWTs are deliberately NOT represented in these response schemas"*; `auth/routes.py::_set_auth_cookies()` |
-| Session cookies marked `Secure` (prod) and `SameSite` | **BLOCKED** | Status check #3 — `_set_auth_cookies()` sets `httponly=True` only; no `secure`, no `samesite`, on the cookies that actually carry the session. (The separate CSRF cookie does set `samesite="strict"` — the session cookies don't.) |
+| Session cookies marked `Secure` (prod) and `SameSite` | ✅ *(was BLOCKED, now fixed)* | `_set_auth_cookies()` now sets `secure=SECURE_COOKIES` (env-driven, defaults to `IS_PRODUCTION`) and `samesite="strict"` on both `access_token` and `refresh_token` — closes Status check #3 |
 | Logout actually invalidates the session, not just clears the client cookie | ✅ | `auth/jwt.py::revoke_refresh_token()` adds the JTI to the used-token set; `auth/tests/test_routes.py::test_logout_clears_authentication` |
 | CSRF protection on state-changing requests | ✅ | Double-submit cookie/header pattern, `auth/dependencies.py::require_csrf()` / `auth/routes.py::_verify_csrf()`, constant-time comparison (`hmac.compare_digest` in `auth/jwt.py::verify_csrf_token()`) |
+| CSRF token is issued once per session, not regenerated on every read | ✅ *(was Status check #4, now fixed)* | `auth/dependencies.py::ensure_csrf_cookie()` now returns early if a `csrf_token` cookie already exists, instead of unconditionally calling `generate_csrf_token()` on every `GET /auth/me` |
 
 ## V4 — Access Control
 
 | Control | Status | Evidence |
 | --- | --- | --- |
-| Every request to a protected endpoint requires a valid session | **BLOCKED** | Status check #1 — `routes.py`'s real `get_current_user` import is shadowed by the old dev-user placeholder, so feature endpoints (`/scans`, compliance, attack-paths) currently accept *any* request, session or not. `backend/tests/test_security.py::test_scans_without_a_cookie_is_401` (xfail, tied to this exact gap) |
-| Role-based restriction on privileged actions (Admin vs. Viewer) | **BLOCKED** | Status check #2 — no account can ever be Admin (hardcoded `role="VIEWER"` on signup), and `require_role()` (Member 3) isn't built yet. `backend/tests/test_security.py::test_viewer_cannot_upload_a_scan` (xfail, tied to this exact gap) |
-| Cross-user data access is denied (IDOR) | **BLOCKED for verification under real auth** | The *logic* (`_load_owned_scan` scoping every query to `user.user_id`, returning 404 not 403) predates Wave C and hasn't changed. But it can't be proven correct under *real* sessions until Status check #1 is fixed — until then, every session resolves to the same placeholder user, so two signed-up accounts can't be distinguished. `backend/tests/test_security.py::test_two_real_users_do_not_share_scan_ownership` (xfail, tied to Status check #1) |
+| Every request to a protected endpoint requires a valid session | ✅ *(was BLOCKED, now fixed)* | `routes.py` now does a clean `from auth.dependencies import get_current_user` with no shadowing redefinition underneath it — confirmed by reading the file (no second `def get_current_user` remains) and by `backend/tests/test_security.py::test_scans_without_a_cookie_is_401`, which now passes outright (no longer `xfail`) |
+| Role-based restriction on privileged actions (Admin vs. Viewer) | ✅ *(was BLOCKED, now fixed)* | `auth/rbac.py::require_role()` — denies with 403 (not 404, intentionally: the user knows their own role, so there's nothing to hide the way there is for scan ownership) and audit-logs the denial. Admin bootstrap via `ADMIN_EMAIL` env var at signup (`auth/routes.py`). `backend/tests/test_security.py::test_viewer_cannot_upload_a_scan` |
+| Cross-user data access is denied (IDOR) | ✅ *(was blocked on Status check #1, now verified under real auth)* | `_load_owned_scan` (unchanged logic, predates Wave C) now provably scoped per *real* signed-up user, not the old shared placeholder: `backend/tests/test_security.py::test_real_admin_scan_is_hidden_from_second_real_user` signs up two distinct real accounts, confirms the second can't reach the first's scan (404), and confirms an audit row (`scan_access_denied`) was written |
 
 ## V5 — Validation, Sanitization
 
@@ -53,6 +60,7 @@ a completed ASVS L1 pass until those three close.
 | --- | --- | --- |
 | Unhandled exceptions never leak internals (stack traces, SQL, file paths) to the client | ✅ (predates Wave C) | Upload/parse errors return a clean 400, not a 500; `backend/tests/test_api.py::test_upload_rejects_malformed_json` et al. |
 | Rate-limit responses don't leak whether the limit is per-IP or per-account | ✅ | `slowapi`'s default 429 body is generic; not customized to add detail |
+| Security-relevant events are logged (login/signup, role-check denial, IDOR denial) | ✅ | `auth/audit.py::log_event()`, writing to the existing `AuditLog` table; a failed audit write is caught and logged, never allowed to break the request it's auditing; `backend/tests/test_security.py::test_real_admin_scan_is_hidden_from_second_real_user` checks for `scan_access_denied` and `signup_success` rows |
 
 ## V9 — Communications
 
@@ -67,14 +75,31 @@ a completed ASVS L1 pass until those three close.
 | --- | --- | --- |
 | No secret committed to git; `.env` gitignored, `.env.example` documents shape only | ✅ | `.gitignore` (`.env`, `.envrc`); manual grep pass found no real credentials in tracked files (one hit was a test fixture password string, `auth/tests/test_hashing.py`); ongoing enforcement via `.github/workflows/gitleaks.yml` on every PR and push |
 | The old placeholder secret is explicitly rejected, not just replaced | ✅ | `auth/jwt.py::_get_secret()` raises if `JWT_SECRET` equals the literal Phase 0 placeholder string |
-| The real `JWT_SECRET` is actually rotated in the environment that runs the app | **Operational, not code — not yet done** | Status check #6 — the local `.env` still has the Phase 0 placeholder value; the code correctly refuses to run on it (`RuntimeError`), but no `/auth/*` request can succeed against a real running instance until someone replaces it |
+| Every `.env.example` variable name actually matches what the code reads | ✅ *(new finding, fixed during this re-verification)* | `backend/.env.example` (added alongside M1's latest commits) documented `JWT_SECRET_KEY`, but `auth/jwt.py::_get_secret()` only ever reads `JWT_SECRET` — anyone following that file literally would hit `RuntimeError: JWT_SECRET is not configured` at runtime. Fixed to `JWT_SECRET` in `backend/.env.example`. Worth a standing habit: this project has now hit the same "two files disagree, nobody notices until it crashes for real" shape three times (LocalStack's endpoint allowlist, `networkx` missing from prod `requirements.txt`, and now this) |
+| The real `JWT_SECRET` is actually rotated in the environment that runs the app | **Operational, not code — still not done** | Status check #6, unchanged — the local `.env` still has the Phase 0 placeholder value, and now also has neither `ADMIN_EMAIL` nor `SECURE_COOKIES` set at all (both silently default to safe-for-dev values, so nothing breaks, but no one can bootstrap an Admin account against *this* local `.env` until `ADMIN_EMAIL` is set). The code correctly refuses to run signup/login on the placeholder secret; someone still has to actually replace it |
 
 ---
 
 ## Summary
 
-- **Verified now:** 15 controls, each with a cited test or code reference.
-- **Blocked on Member 1 / Member 3:** 3 controls (cookie flags, full access-control enforcement, IDOR verification under real sessions) — all three already have a written `xfail(strict=True)` test in `backend/tests/test_security.py` that will fail loudly (forcing this checklist to be updated) the moment someone fixes the gap and forgets to flip it.
-- **Operational, not a code gap:** rotating the real `.env`'s `JWT_SECRET`.
+- **Verified now:** 20 controls, each with a cited test or code reference — up
+  from 15, since the three previously-blocked controls (session cookie flags,
+  full access-control enforcement, IDOR under real sessions) plus the CSRF-
+  rotation and audit-logging controls are now all closed and confirmed, not
+  assumed.
+- **`xfail(strict=True)` did its job.** The three tests written specifically to
+  fail loudly until M1/M3 fixed the underlying gaps (`test_scans_without_a_cookie_is_401`,
+  `test_viewer_cannot_upload_a_scan`, and the IDOR test) are no longer `xfail` —
+  they're real, unconditional passes now. `pytest backend -q` is fully green
+  (108 passed) with no `xfail`/`xpass` markers left in the suite.
+- **One new gap found and fixed while re-verifying:** `backend/.env.example`
+  documented the wrong variable name (`JWT_SECRET_KEY` instead of `JWT_SECRET`).
+- **Still open, operational only:** the real local `.env`'s `JWT_SECRET` is
+  still the Phase 0 placeholder, and `ADMIN_EMAIL`/`SECURE_COOKIES` aren't set
+  in it at all. No code change needed — someone just has to actually set them
+  before testing the full flow against a real running instance locally.
 
-Re-run `pytest backend/tests/test_security.py -v` after each of M1's remaining fixes lands — an `xfail` flipping to an unexpected pass means strict mode will fail the suite until the corresponding line above is updated from BLOCKED to ✅.
+Re-run `pytest backend/tests/test_security.py -v` after any future auth-related
+change — if an `xfail` ever reappears, or a currently-passing test starts
+failing, that's this checklist's actual regression signal, not something to
+discover by re-reading code by hand again.

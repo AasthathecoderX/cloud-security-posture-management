@@ -1,33 +1,35 @@
 # AI-Powered Cloud Security Posture Management
 
-A full-stack cybersecurity platform for analyzing uploaded cloud configurations and emulated live AWS environments. The planned system combines benchmark-mapped rules, ML-based risk prioritization and anomaly detection, compliance reporting, and attack-path visualization.
+A full-stack cybersecurity platform for analyzing uploaded cloud configurations and emulated live AWS environments. It combines a benchmark-mapped declarative rule engine, ML-based risk prioritization and anomaly detection, CIS/NIST compliance reporting, and graph-based attack-path visualization, behind a multi-user, role-based authentication layer.
 
-The repository has completed **Phase 2: backend API and database foundation**. It includes the Phase 0 local environment, the Phase 1 secure parser/rule engine, and Phase 2 FastAPI scan endpoints with SQLModel models and Alembic migrations.
+**Current status:** Phases 0–8 are implemented — secure parsing and rule engine, the FastAPI/Postgres backend, the React dashboard, live LocalStack-cloud scanning, ML risk scoring, attack-path analysis, CIS/NIST compliance mapping, and Argon2id/JWT authentication with Admin/Viewer RBAC and audit logging. Phase 9 (CI/CD hardening + self-scanning) and Phase 10 (deployment) are next; see [the execution plan](guides/Phases%20%284-11%29%20Execution%20Plan.md) for the detailed wave-by-wave breakdown.
 
 ## Architecture
 
 ![CSPM architecture and trust boundaries](docs/architecture.png)
 
-The browser communicates with FastAPI, which will orchestrate the rule engine, ML scorer, and NetworkX graph engine. PostgreSQL stores application state, while boto3 connects the API to LocalStack during local development. Uploaded JSON/YAML is treated as untrusted input.
+The React dashboard authenticates via httpOnly JWT cookies and talks to FastAPI, which orchestrates the rule engine, the XGBoost/Isolation Forest scorer, and the NetworkX attack-path graph. PostgreSQL stores application state (users, scans, findings, audit log); boto3 connects the API to LocalStack for live cloud scanning. Uploaded JSON/YAML and live-collected resources are both treated as untrusted input.
 
-See [the schema](docs/schema.md), [the threat model](docs/threat-model.md), and [the full project plan](guides/Major%20Project%20Planning.md).
+See [the schema](docs/schema.md), [the threat model](docs/threat-model.md), the [OWASP ASVS L1 checklist](docs/asvs-l1-checklist.md), and [the full project plan](guides/Major%20Project%20Planning.md).
 
-## Planned technology stack
+## Technology stack
 
-- React and Tailwind CSS
+- React, Tailwind CSS, TanStack Query, React Force Graph
 - Python 3.11, FastAPI, and Pydantic
-- PostgreSQL with SQLModel/SQLAlchemy
+- PostgreSQL with SQLModel/SQLAlchemy and Alembic
 - boto3 and LocalStack
 - NetworkX, scikit-learn, and XGBoost
+- Argon2id (`pwdlib`), PyJWT, and `slowapi` rate limiting
 - Docker Compose and GitHub Actions
 
 ## Prerequisites
 
 - Git
 - Docker Desktop with Docker Compose v2
-- Python 3.11 for backend development and Node.js LTS for later development phases
+- Python 3.11 for backend development
+- Node.js LTS for frontend development
 
-Docker is the easiest runtime for the full backend stack because it starts PostgreSQL, LocalStack, runs database migrations, and serves FastAPI. Python is needed for local backend tests. Use Python 3.11 for full backend dependency installation; newer unreleased/interpreter-edge versions may not have wheels for all pinned packages.
+Docker is the easiest runtime for the full backend stack because it starts PostgreSQL, LocalStack, runs database migrations, and serves FastAPI. Python is needed for local backend tests, and Node.js for the frontend. Use Python 3.11 for full backend dependency installation; newer unreleased/interpreter-edge versions may not have wheels for all pinned packages.
 
 ## Run the backend stack
 
@@ -35,6 +37,11 @@ Docker is the easiest runtime for the full backend stack because it starts Postg
 git clone <repository-url>
 cd cloud-security-posture-management
 cp .env.example .env
+```
+
+Before continuing, open `.env` and set `JWT_SECRET` to a real random value (32+ characters — the app refuses to run authentication on the placeholder) and `ADMIN_EMAIL` to the address you'll sign up with first. Every other signup becomes a Viewer; only the address matching `ADMIN_EMAIL` becomes Admin, and only Admins can upload a scan or trigger a live cloud scan.
+
+```bash
 cd infra
 docker compose up --build -d
 ```
@@ -74,7 +81,20 @@ Stop the environment without deleting its named volumes:
 docker compose down
 ```
 
-## Run backend tests
+## Run the frontend
+
+```bash
+cd frontend
+cp .env.example .env
+npm install
+npm run dev
+```
+
+Opens at <http://localhost:5173>. `.env`'s `VITE_USE_MOCKS=true` runs the dashboard standalone against MSW-mocked data (no backend needed) — useful for frontend-only work. Set `VITE_USE_MOCKS=false` to talk to the real backend started above; sign up (the first account, matching `ADMIN_EMAIL`, becomes Admin) and upload a config or run a live cloud scan to see real findings, risk scores, attack paths, and compliance status end to end.
+
+## Run tests
+
+Backend (pytest; set a real `JWT_SECRET` first, same rule as above):
 
 ```bash
 python3.11 -m venv .venv
@@ -82,7 +102,15 @@ python3.11 -m venv .venv
 ./scripts/run_tests.sh
 ```
 
-The test suite validates the secure parser, all five starter rules, API upload/read endpoints, database persistence, and user-scoped access checks.
+This covers the secure parser and rule engine, scan/compliance/attack-path API endpoints, the cloud connector, ML scoring, authentication (signup/login/JWT/CSRF), RBAC and audit logging, and attacker-perspective security tests (forged JWTs, rate-limit abuse, CORS misconfiguration) — see [the ASVS L1 checklist](docs/asvs-l1-checklist.md) for how these map to concrete security controls.
+
+Frontend (Vitest):
+
+```bash
+cd frontend
+npm install
+npm test
+```
 
 To verify migrations without Docker:
 
@@ -95,18 +123,19 @@ rm local_migrations.db
 ## Repository structure
 
 ```text
-backend/   FastAPI application and backend Dockerfile
-frontend/  React application (Phase 3)
-ml/        Dataset and model work (Phase 5)
+backend/   FastAPI application — rule engine, cloud connector, ML scoring,
+           attack-path graph, compliance engine, authentication/RBAC
+frontend/  React dashboard (upload, scans, findings, attack paths, compliance, auth)
+ml/        Simulated-data pipeline and trained XGBoost / Isolation Forest models
 infra/     Local Docker Compose environment
-rules/     Declarative security rules (Phase 1)
-docs/      Architecture, schema, and threat model
+rules/     Declarative security rules
+docs/      Architecture, schema, threat model, and the ASVS L1 checklist
 scripts/   Development smoke-test utilities
-guides/    Project plan and execution guide
+guides/    Project plan and the wave-by-wave execution plans
 ```
 
 ## Security
 
-Never commit `.env`, cloud credentials, database passwords, model artifacts, or tokens. Copy `.env.example` locally and replace its development-only placeholders. Report vulnerabilities according to [SECURITY.md](SECURITY.md).
+Never commit `.env`, cloud credentials, database passwords, model artifacts, or tokens. Copy `.env.example` locally and replace its development-only placeholders — in particular, rotate `JWT_SECRET` and set `ADMIN_EMAIL` before relying on authentication. Report vulnerabilities according to [SECURITY.md](SECURITY.md).
 
 GitHub repository settings should require pull requests and one approval on `main`, enable Dependabot alerts and security updates, enable secret scanning and push protection, and enable private vulnerability reporting. The checked-in Dependabot and gitleaks configurations provide weekly dependency updates and secret scanning on pull requests and pushes to `main`.

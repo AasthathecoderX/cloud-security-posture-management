@@ -2,7 +2,7 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
-import { SessionProvider } from "./useSession";
+import { SessionProvider } from "./SessionContext";
 import ProtectedRoute from "./ProtectedRoute";
 import { http, HttpResponse } from "msw";
 import { server } from "../../test/setup";

@@ -1,27 +1,7 @@
-
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { getCurrentUser } from "../../api/auth";
 import type { UserResponse } from "../../api/types";
-
-interface SessionContextValue {
-  user: UserResponse | null;
-  isLoading: boolean;
-  isAuthenticated: boolean;
-  refreshSession: () => Promise<void>;
-  setSession: (user: UserResponse) => void;
-  clearSession: () => void;
-}
-
-const SessionContext = createContext<SessionContextValue | undefined>(
-  undefined,
-);
+import { SessionContext } from "./session-context";
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserResponse | null>(null);
@@ -53,6 +33,13 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    // Intentional: bootstrap the session once on mount by asking the server
+    // who (if anyone) the current cookie belongs to. refreshSession's first
+    // synchronous statement is setIsLoading(true), which is what the
+    // set-state-in-effect rule is reacting to -- but there's no React state
+    // to derive this from up front (that's the whole point of the call),
+    // so there's no non-effect alternative here.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void refreshSession();
   }, [refreshSession]);
 
@@ -70,14 +57,4 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       {children}
     </SessionContext.Provider>
   );
-}
-
-export function useSession(): SessionContextValue {
-  const context = useContext(SessionContext);
-
-  if (!context) {
-    throw new Error("useSession must be used inside SessionProvider.");
-  }
-
-  return context;
 }
