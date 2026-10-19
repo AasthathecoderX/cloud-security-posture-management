@@ -1,0 +1,223 @@
+
+name: Scheduled Cloud Security Scan
+
+on:
+  schedule:
+    # Daily at 02:17 UTC.
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scheduled-cloud-security-scan
+  cancel-in-progress: false
+
+jobs:
+  scheduled-scan:
+    name: Authenticate and run live scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      CSPM_API_BASE_URL: ${{ vars.CSPM_API_BASE_URL }}
+      CSPM_SCAN_EMAIL: ${{ secrets.CSPM_SCAN_EMAIL }}
+      CSPM_SCAN_PASSWORD: ${{ secrets.CSPM_SCAN_PASSWORD }}
+
+    steps:
+      - name: Check required configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${CSPM_API_BASE_URL:-}" ]]; then
+            echo "::error::Configure the CSPM_API_BASE_URL repository variable."
+            exit 1
+          fi
+
+          if [[ -z "${CSPM_SCAN_EMAIL:-}" ]]; then
+            echo "::error::Configure the CSPM_SCAN_EMAIL repository secret."
+            exit 1
+          fi
+
+          if [[ -z "${CSPM_SCAN_PASSWORD:-}" ]]; then
+            echo "::error::Configure the CSPM_SCAN_PASSWORD repository secret."
+            exit 1
+          fi
+
+          python -c '
+          import os
+          from urllib.parse import urlparse
+
+          url = os.environ["CSPM_API_BASE_URL"].rstrip("/")
+          parsed = urlparse(url)
+
+          if parsed.scheme != "https" or not parsed.netloc:
+              raise SystemExit(
+                  "CSPM_API_BASE_URL must be a valid HTTPS base URL."
+              )
+
+          if parsed.query or parsed.fragment:
+              raise SystemExit(
+                  "CSPM_API_BASE_URL must not contain a query or fragment."
+              )
+
+          print("Required configuration is present.")
+          '
+
+      - name: Authenticate and run cloud scan
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python <<'PY'
+          import http.cookiejar
+          import json
+          import os
+          import sys
+          import urllib.error
+          import urllib.request
+
+          base_url = os.environ["CSPM_API_BASE_URL"].rstrip("/")
+          email = os.environ["CSPM_SCAN_EMAIL"]
+          password = os.environ["CSPM_SCAN_PASSWORD"]
+
+          cookie_jar = http.cookiejar.CookieJar()
+          opener = urllib.request.build_opener(
+              urllib.request.HTTPCookieProcessor(cookie_jar)
+          )
+
+          def request(method, path, *, body=None, csrf=None):
+              headers = {"Accept": "application/json"}
+
+              data = None
+              if body is not None:
+                  data = json.dumps(body).encode("utf-8")
+                  headers["Content-Type"] = "application/json"
+
+              if csrf is not None:
+                  headers["X-CSRF-Token"] = csrf
+
+              req = urllib.request.Request(
+                  base_url + path,
+                  data=data,
+                  headers=headers,
+                  method=method,
+              )
+
+              try:
+                  with opener.open(req, timeout=60) as response:
+                      response_body = response.read().decode(
+                          "utf-8", errors="replace"
+                      )
+                      return response.status, response_body
+              except urllib.error.HTTPError as exc:
+                  response_body = exc.read().decode(
+                      "utf-8", errors="replace"
+                  )
+                  return exc.code, response_body
+              except (urllib.error.URLError, TimeoutError) as exc:
+                  raise RuntimeError(
+                      f"Request to {path} failed: {exc}"
+                  ) from exc
+
+          def require_status(status, expected, operation, body):
+              if status not in expected:
+                  # Do not print request headers, cookies or credentials.
+                  print(
+                      f"ERROR: {operation} returned HTTP {status}.",
+                      file=sys.stderr,
+                  )
+                  if body:
+                      print(body[:2000], file=sys.stderr)
+                  raise SystemExit(1)
+
+          print("Step 1: Bootstrapping CSRF cookie.")
+
+          status, body = request("GET", "/auth/me")
+
+          # An unauthenticated session is expected at this point.
+          require_status(
+              status,
+              {200, 401},
+              "CSRF bootstrap",
+              body,
+          )
+
+          csrf = next(
+              (
+                  cookie.value
+                  for cookie in cookie_jar
+                  if cookie.name == "csrf_token"
+              ),
+              None,
+          )
+
+          if not csrf:
+              raise SystemExit(
+                  "ERROR: /auth/me did not provide a CSRF cookie."
+              )
+
+          print("Step 2: Logging in with the dedicated service account.")
+
+          status, body = request(
+              "POST",
+              "/auth/login",
+              body={
+                  "email": email,
+                  "password": password,
+              },
+              csrf=csrf,
+          )
+
+          require_status(status, {200}, "Login", body)
+
+          # Ensure login did not remove the CSRF cookie needed for the scan.
+          csrf = next(
+              (
+                  cookie.value
+                  for cookie in cookie_jar
+                  if cookie.name == "csrf_token"
+              ),
+              None,
+          )
+
+          if not csrf:
+              raise SystemExit(
+                  "ERROR: CSRF cookie is missing after login."
+              )
+
+          print("Login successful.")
+
+          print("Step 3: Triggering the live cloud scan.")
+
+          status, body = request(
+              "POST",
+              "/scans/cloud",
+              csrf=csrf,
+          )
+
+          require_status(status, {200}, "Live cloud scan", body)
+
+          try:
+              result = json.loads(body)
+          except json.JSONDecodeError:
+              raise SystemExit(
+                  "ERROR: Scan endpoint returned invalid JSON."
+              )
+
+          # Report the API result without exposing authentication data.
+          print(
+              json.dumps(
+                  {
+                      "status": result.get("status"),
+                      "scan_id": result.get("scan_id"),
+                      "findings_count": result.get("findings_count"),
+                  },
+                  indent=2,
+              )
+          )
+
+          print("Scheduled cloud scan completed successfully.")
+          PY
